@@ -11,12 +11,12 @@
      If the date, name or venue changes, change it here too.
      ============================================================ -->
 <title>Luna turns 7</title>
-<meta name="description" content="Join us on November 15, 2026 as we celebrate Luna's 7th birthday.">
+<meta name="description" content="Join us on November 14, 2026 at Sundays, Marikina, as we celebrate Luna's 7th birthday.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_PH">
 <meta property="og:site_name" content="Luna turns 7">
 <meta property="og:title" content="You're invited - Luna's 7th Birthday">
-<meta property="og:description" content="November 15, 2026 - Sunday - 11 AM. Tap to view the invitation.">
+<meta property="og:description" content="November 14, 2026 - Saturday - 5 PM - Sundays, Marikina. Tap to view the invitation.">
 <meta property="og:url" content="https://theonlyjohnsenmo-tech.github.io/LunaBday/">
 <meta property="og:image" content="https://theonlyjohnsenmo-tech.github.io/LunaBday/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -760,6 +760,18 @@ section.panel .label { color: var(--ink-soft); }
   width: 9rem;
   border-radius: .6rem;
   margin: 1.25rem 0 .4rem;
+  box-shadow: 0 .5rem 1rem -.5rem rgba(156, 35, 87, .6);
+}
+
+.map {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 24rem;
+  border: 0;
+  border-radius: .9rem;
+  margin: 1.25rem 0 .4rem;
+  background: var(--paper-2);
   box-shadow: 0 .5rem 1rem -.5rem rgba(156, 35, 87, .6);
 }
 
@@ -1549,7 +1561,7 @@ section.panel .label { color: var(--ink-soft); }
       <span class="age">Ages 7</span>
       <span>1 birthday girl</span>
       <span id="specGuests">Guests included</span>
-      <span id="specDate">Nov 15 2026</span>
+      <span id="specDate">Nov 14 2026</span>
       <span class="bar" aria-hidden="true"></span>
     </div>
   </header>
@@ -1638,6 +1650,7 @@ section.panel .label { color: var(--ink-soft); }
       <li><span class="k">Date</span><span class="v" id="listDate"></span></li>
       <li><span class="k">Time</span><span class="v" id="listTime"></span></li>
     </ul>
+    <iframe class="map" id="venueMap" title="Map to the party" loading="lazy" referrerpolicy="no-referrer-when-downgrade" hidden></iframe>
     <img class="qr" id="venueQr" alt="QR code linking to the venue on Google Maps" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" hidden>
     <p class="caption" id="qrCaption" hidden>Scan to open the map</p>
     <div class="chips">
@@ -1875,14 +1888,14 @@ const DEFAULTS = {
   celebrant: "Luna",
   occasion: "is turning seven",
 
-  date: "2026-11-15",
-  startTime: "11:00",
-  endTime: "15:00",
+  date: "2026-11-14",
+  startTime: "17:00",
+  endTime: "",
 
   venue: {
-    name: "",
-    address: "",
-    mapsUrl: "",
+    name: "Sundays",
+    address: "J.P. Rizal Street corner V. Gomez Street, Barangay San Roque, Marikina City, 1801 Metro Manila",
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sundays%20J.P.%20Rizal%20Street%20corner%20V.%20Gomez%20Street%20San%20Roque%20Marikina",
     qrImage: ""
   },
 
@@ -2109,6 +2122,7 @@ function startDate() {
 }
 
 function endDate() {
+  if (!content.endTime) return new Date(NaN);
   return new Date(content.date + "T" + content.endTime + ":00" + TIME_ZONE_OFFSET);
 }
 
@@ -2156,6 +2170,15 @@ function renderText() {
   const mapLink = $("mapLink");
   mapLink.href = content.venue.mapsUrl || "#";
   mapLink.hidden = !content.venue.mapsUrl;
+
+  // Map preview from the place name and address. Only reload it when they change.
+  const map = $("venueMap");
+  const place = eventLocation();
+  map.hidden = !place;
+  if (place && map.dataset.place !== place) {
+    map.dataset.place = place;
+    map.src = "https://maps.google.com/maps?q=" + encodeURIComponent(place) + "&z=16&output=embed";
+  }
 
   const from = startDate();
   const longDate = isNaN(from) ? "" : from.toLocaleDateString("en-PH", {
@@ -2465,9 +2488,15 @@ function eventLocation() {
   return [content.venue.name, content.venue.address].filter(Boolean).join(", ");
 }
 
+// No end time set? Calendars still need one, so block 3 hours.
+function calendarEnd() {
+  const to = endDate();
+  return isNaN(to) ? new Date(startDate().getTime() + 3 * 3600e3) : to;
+}
+
 function buildGoogleCalendarUrl() {
   const from = startDate();
-  const to = endDate();
+  const to = calendarEnd();
   if (isNaN(from) || isNaN(to)) return "#";
 
   const params = new URLSearchParams({
@@ -2490,7 +2519,7 @@ function buildIcsFile() {
     "UID:" + from.getTime() + "@invitation",
     "DTSTAMP:" + toUtcStamp(new Date()),
     "DTSTART:" + toUtcStamp(from),
-    "DTEND:" + toUtcStamp(endDate()),
+    "DTEND:" + toUtcStamp(calendarEnd()),
     "SUMMARY:" + eventTitle(),
     "LOCATION:" + eventLocation(),
     "DESCRIPTION:" + content.rsvp.note,
