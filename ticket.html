@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luna's party tickets</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Satisfy&display=swap" rel="stylesheet">
+<style>
+/* An A4 sheet of four garden-party tickets for Luna's party.
+   Print at 100% scale with background graphics on, then cut around
+   each ticket, flowers and all. The QR code opens the invitation. */
+:root {
+  --ink: #4e1c42;
+  --ink-soft: #74335f;
+  --action: #8e2f6a;
+  --paper: #fff7fb;
+  --sky-1: #ffd6e6;
+  --sky-3: #f6d6f1;
+  --sky-4: #e3d6ff;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+@page { size: A4 portrait; margin: 0; }
+
+html { background: #e9e0f4; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Quicksand", system-ui, sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+::selection { background: #ffe9a8; color: var(--ink); }
+
+/* ---------- On screen: the sheet on a table, with a print button ---------- */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem 1.25rem;
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+.bar p { margin: 0; max-width: 34rem; font-size: 1rem; line-height: 1.45; }
+
+.bar button {
+  font: inherit;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: .75rem 1.3rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--action);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 .5rem 1rem -.35rem rgba(142, 15, 66, .55);
+  transition: translate .16s cubic-bezier(.16, 1, .3, 1), box-shadow .16s;
+}
+
+.bar button:hover { translate: 0 -2px; }
+.bar button:active { translate: 0 2px; background: #6c1f50; box-shadow: 0 .2rem .4rem -.2rem rgba(142, 15, 66, .55); }
+.bar button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+.sheet {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto 2rem;
+  padding: 10.5mm 10mm;
+  display: grid;
+  grid-template-rows: repeat(4, 62mm);
+  row-gap: 6mm;
+  background: #fff;
+  box-shadow: 0 1.5rem 3rem -1.5rem rgba(74, 24, 56, .45);
+}
+
+/* Fit the sheet on a phone screen without changing its printed size. */
+@media screen and (max-width: 840px) {
+  .sheet { zoom: calc(100vw / 220mm); }
+}
+
+@media print {
+  html, body { background: #fff; }
+  .bar { display: none; }
+  .sheet { margin: 0; box-shadow: none; }
+}
+
+/* ---------- One pass ---------- */
+.pass {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40mm 1fr 48mm;
+  height: 62mm;
+  border-radius: 5mm;
+  background: var(--paper);
+  overflow: visible;
+  break-inside: avoid;
+}
+
+/* The tear between ticket and stub, with a notch bitten top and bottom. */
+.stub {
+  position: relative;
+  border-radius: 0 5mm 5mm 0;
+  border-left: .6mm dashed rgba(74, 24, 56, .35);
+}
+
+.stub::before,
+.stub::after {
+  content: "";
+  position: absolute;
+  left: -3.3mm;
+  width: 6mm;
+  height: 6mm;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.stub::before { top: -3mm; }
+.stub::after  { bottom: -3mm; }
+
+/* ---------- The twilight panel: sky, moon, sparkles, a glowing 7 ---------- */
+.art {
+  position: relative;
+  overflow: hidden;
+  border-radius: 5mm 0 0 5mm;
+  background: linear-gradient(180deg, #ffd6e6, #f9c9e2 50%, #dcc3f5);
+}
+
+.art > * { position: absolute; }
+
+.art .moon { right: -6mm; top: -5mm; width: 20mm; height: 20mm; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #fff, #ffe6f0 58%, transparent 72%); }
+.art .spark { width: 1.6mm; height: 1.6mm; border-radius: 50%; background: #fff; box-shadow: 0 0 1.6mm .6mm #fff7c2; }
+.art .s1 { left: 5mm; top: 6mm; }
+.art .s2 { left: 31mm; top: 24mm; }
+.art .s3 { left: 8mm; top: 31mm; width: 1mm; height: 1mm; }
+.art .s4 { left: 24mm; top: 4mm; width: 1.1mm; height: 1.1mm; }
+
+.art .ring {
+  left: 50%; top: 7mm; width: 21mm; height: 21mm; translate: -50% 0;
+  display: grid; place-content: center; border-radius: 50%;
+  background: #fff8fb; box-shadow: 0 0 0 .9mm #fff, 0 0 5mm 1.5mm rgba(255, 255, 255, .85);
+}
+
+.art .ring b { font-family: "Satisfy", cursive; font-weight: 400; font-size: 13mm; line-height: 1; color: #8e2f6a; padding-top: 1mm; }
+
+.art .bed { left: -2mm; bottom: -1mm; width: calc(100% + 4mm); }
+
+/* A daisy, a tulip and a butterfly spill over each ticket's edge, never
+   onto words or the QR, and each ticket's bottom props miss the next
+   ticket's top props. */
+.pop { position: absolute; z-index: 2; overflow: visible; pointer-events: none; --p: #ffc7da; --w1: #ffc7da; --w2: #d7b8ff; }
+.pop-daisy { width: 12mm; left: -4mm; top: -4mm; }
+.pop-tulip { width: 8mm; left: 26mm; top: -6mm; rotate: 12deg; }
+.pop-fly   { width: 11mm; right: 40mm; bottom: -4mm; rotate: 12deg; }
+
+.pass[data-pop="b"] .pop-daisy { left: 22mm; }
+.pass[data-pop="b"] .pop-tulip { left: -3mm; top: auto; bottom: -6mm; rotate: -14deg; }
+.pass[data-pop="b"] .pop-fly   { right: -4mm; bottom: auto; top: -4mm; rotate: -10deg; }
+.pass[data-pop="c"] .pop-daisy { left: 24mm; }
+.pass[data-pop="c"] .pop-tulip { left: 28mm; top: auto; bottom: -6mm; }
+.pass[data-pop="d"] .pop-daisy { left: auto; right: -4mm; }
+.pass[data-pop="d"] .pop-tulip { left: -3mm; top: auto; bottom: -6mm; rotate: -14deg; }
+.pass[data-pop="d"] .pop-fly   { right: auto; left: -4mm; top: -4mm; bottom: auto; rotate: -16deg; }
+
+/* ---------- The ticket's words ---------- */
+.main {
+  display: flex;
+  flex-direction: column;
+  padding: 0 5mm 4mm;
+  min-width: 0;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 -5mm;
+  padding: 2.4mm 5mm 2.2mm;
+  background: var(--band);
+  font-size: 3.1mm;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.head .flight { letter-spacing: .06em; font-weight: 600; }
+
+.name {
+  margin: 2mm 0 0;
+  font-family: "Satisfy", cursive;
+  font-weight: 400;
+  font-size: 12mm;
+  line-height: 1.1;
+  color: #8e2f6a;
+}
+
+.name span {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: 4.2mm;
+  color: var(--ink);
+  text-shadow: none;
+  margin-left: 1mm;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1.25fr .8fr 1fr;
+  gap: 2.4mm 4mm;
+  margin: 3.4mm 0 0;
+}
+
+.fields div { min-width: 0; }
+
+.fields dt {
+  font-size: 2.3mm;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.fields dd {
+  margin: .5mm 0 0;
+  font-size: 3.9mm;
+  font-weight: 600;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+/* A line to write the guest's name on. */
+.fields .write { grid-column: span 2; }
+.fields .write dd { height: 5mm; border-bottom: .35mm solid rgba(74, 24, 56, .45); }
+
+.addr b { color: var(--ink); font-weight: 600; }
+
+.addr {
+  margin: auto 0 0;
+  padding-top: 2mm;
+  font-size: 2.7mm;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
+/* ---------- The stub ---------- */
+.stub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3mm 4mm;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 120%, var(--sky-3), transparent 60%),
+    var(--paper);
+}
+
+.qr {
+  display: block;
+  width: 30mm;
+  height: 30mm;
+  border-radius: 2.5mm;
+  background: #fff;
+  box-shadow: 0 0 0 .6mm var(--band);
+}
+
+.scan {
+  margin: 2.6mm 0 0;
+  font-size: 3mm;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.rsvp {
+  margin: 1.4mm 0 0;
+  padding: .7mm 2.4mm;
+  border-radius: 99px;
+  background: var(--action);
+  color: #fff;
+  font-size: 2.6mm;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <symbol id="c-daisy" viewBox="-22 -22 44 44">
+      <g style="fill:var(--p,#fff)">
+        <ellipse rx="4" ry="11" cy="-11"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(36)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(72)"/>
+        <ellipse rx="4" ry="11" cy="-11" transform="rotate(108)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(144)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(180)"/>
+        <ellipse rx="4" ry="11" cy="-11" transform="rotate(216)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(252)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(288)"/>
+        <ellipse rx="4" ry="11" cy="-11" transform="rotate(324)"/>
+      </g>
+      <circle r="5.5" fill="#f5c04e"/>
+    </symbol>
+    <symbol id="c-tulip" viewBox="0 0 60 120">
+      <path d="M30 64C34 84 28 100 30 118" fill="none" stroke="#79b98d" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M30 98C42 96 50 86 48 74 36 76 30 86 30 98Z" fill="#8fcaa1"/>
+      <path d="M12 34C12 10 22 -2 30 -2 38 -2 48 10 48 34 48 52 12 52 12 34Z" transform="translate(0 16)" style="fill:var(--p,#ff9ec2)"/>
+      <path d="M12 30 21 42 30 22 39 42 48 30" transform="translate(0 16)" style="fill:var(--p,#ff9ec2)" stroke="#fff" stroke-opacity=".55" stroke-width="1.4" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="c-fly" viewBox="0 0 100 80">
+      <path d="M48 38C38 10 8 6 8 26 8 42 30 44 48 40ZM48 42C30 46 18 58 26 70 34 78 46 64 48 48Z" style="fill:var(--w1,#fff)"/>
+      <path d="M52 38C62 10 92 6 92 26 92 42 70 44 52 40ZM52 42C70 46 82 58 74 70 66 78 54 64 52 48Z" style="fill:var(--w2,#ffd1e4)"/>
+      <circle cx="24" cy="24" r="5" fill="#ffd1e4"/><circle cx="76" cy="24" r="5" fill="#fff"/>
+      <path d="M50 28V62" stroke="#8e2f6a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M49 28C46 18 42 14 38 12M51 28C54 18 58 14 62 12" fill="none" stroke="#8e2f6a" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="t-bed" viewBox="0 0 200 120"><path d="M0 120C40 104 80 110 120 106 160 102 190 100 200 108V120Z" fill="#a8d5b5"/><path d="M10.0 118C16.0 83.2 4.0 68.4 10.0 48.4" fill="none" stroke="#79b98d" stroke-width="3" stroke-linecap="round"/><g transform="translate(10.0 48.4) scale(.8)"><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(0)" fill="#ffc7da"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(45)" fill="#ffc7da"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(90)" fill="#ffc7da"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(135)" fill="#ffc7da"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(180)" fill="#ffc7da"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(225)" fill="#ffc7da"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(270)" fill="#ffc7da"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(315)" fill="#ffc7da"/><circle r="5" fill="#ffe08a"/></g><path d="M49.3 118C55.3 95.9 43.3 93.7 49.3 73.7" fill="none" stroke="#79b98d" stroke-width="3" stroke-linecap="round"/><g transform="translate(49.3 73.7) scale(.8)"><path d="M-14 -4C-14 -28 -6 -40 0 -40 6 -40 14 -28 14 -4 14 8 -14 8 -14 -4Z" fill="#fff"/></g><path d="M81.2 118C87.2 82.8 75.2 67.7 81.2 47.7" fill="none" stroke="#79b98d" stroke-width="3" stroke-linecap="round"/><g transform="translate(81.2 47.7) scale(.8)"><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(0)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(45)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(90)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(135)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(180)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(225)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(270)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(315)" fill="#d7b8ff"/><circle r="5" fill="#ffe08a"/></g><path d="M113.2 118C119.2 94.1 107.2 90.2 113.2 70.2" fill="none" stroke="#79b98d" stroke-width="3" stroke-linecap="round"/><g transform="translate(113.2 70.2) scale(.8)"><path d="M-14 -4C-14 -28 -6 -40 0 -40 6 -40 14 -28 14 -4 14 8 -14 8 -14 -4Z" fill="#d7b8ff"/></g><path d="M148.8 118C154.8 97.1 142.8 96.3 148.8 76.3" fill="none" stroke="#79b98d" stroke-width="3" stroke-linecap="round"/><g transform="translate(148.8 76.3) scale(.8)"><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(0)" fill="#fff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(45)" fill="#fff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(90)" fill="#fff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(135)" fill="#fff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(180)" fill="#fff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(225)" fill="#fff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(270)" fill="#fff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(315)" fill="#fff"/><circle r="5" fill="#ffe08a"/></g><path d="M180.7 118C186.7 88.2 174.7 78.5 180.7 58.5" fill="none" stroke="#79b98d" stroke-width="3" stroke-linecap="round"/><g transform="translate(180.7 58.5) scale(.8)"><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(0)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(45)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(90)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(135)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(180)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(225)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(270)" fill="#d7b8ff"/><path d="M0 0C-7 -6 -8 -18 -3 -22L0 -19 3 -22C8 -18 7 -6 0 0Z" transform="rotate(315)" fill="#d7b8ff"/><circle r="5" fill="#ffe08a"/></g></symbol>
+    <!-- QR code for https://theonlyjohnsenmo-tech.github.io/LunaBday/ (error correction H), with a daisy in the middle. -->
+    <symbol id="qr" viewBox="-3 -3 47 47">
+      <rect x="-3" y="-3" width="47" height="47" fill="#fff"/>
+      <path fill="#4e1c42" d="M0 0h7v1h-7zM9 0h2v1h-2zM14 0h3v1h-3zM21 0h1v1h-1zM26 0h1v1h-1zM29 0h2v1h-2zM34 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h1v1h-1zM11 1h1v1h-1zM13 1h1v1h-1zM15 1h2v1h-2zM19 1h1v1h-1zM22 1h3v1h-3zM30 1h2v1h-2zM34 1h1v1h-1zM40 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM12 2h1v1h-1zM14 2h1v1h-1zM16 2h4v1h-4zM22 2h2v1h-2zM31 2h1v1h-1zM34 2h1v1h-1zM36 2h3v1h-3zM40 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h1v1h-1zM11 3h3v1h-3zM17 3h3v1h-3zM21 3h2v1h-2zM24 3h1v1h-1zM27 3h2v1h-2zM30 3h3v1h-3zM34 3h1v1h-1zM36 3h3v1h-3zM40 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM10 4h1v1h-1zM13 4h1v1h-1zM15 4h1v1h-1zM19 4h1v1h-1zM21 4h2v1h-2zM24 4h1v1h-1zM26 4h1v1h-1zM28 4h2v1h-2zM31 4h1v1h-1zM34 4h1v1h-1zM36 4h3v1h-3zM40 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM14 5h1v1h-1zM17 5h2v1h-2zM20 5h1v1h-1zM22 5h1v1h-1zM25 5h1v1h-1zM29 5h1v1h-1zM32 5h1v1h-1zM34 5h1v1h-1zM40 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM34 6h7v1h-7zM9 7h1v1h-1zM11 7h1v1h-1zM15 7h2v1h-2zM19 7h1v1h-1zM25 7h1v1h-1zM27 7h1v1h-1zM30 7h2v1h-2zM3 8h2v1h-2zM6 8h2v1h-2zM9 8h1v1h-1zM14 8h2v1h-2zM17 8h2v1h-2zM20 8h1v1h-1zM25 8h1v1h-1zM27 8h3v1h-3zM32 8h1v1h-1zM37 8h2v1h-2zM0 9h1v1h-1zM2 9h3v1h-3zM9 9h1v1h-1zM12 9h2v1h-2zM19 9h2v1h-2zM22 9h1v1h-1zM24 9h1v1h-1zM26 9h2v1h-2zM29 9h3v1h-3zM33 9h1v1h-1zM35 9h2v1h-2zM1 10h1v1h-1zM3 10h1v1h-1zM5 10h2v1h-2zM8 10h1v1h-1zM14 10h1v1h-1zM20 10h3v1h-3zM27 10h1v1h-1zM34 10h3v1h-3zM38 10h1v1h-1zM5 11h1v1h-1zM10 11h3v1h-3zM17 11h1v1h-1zM21 11h5v1h-5zM27 11h1v1h-1zM29 11h1v1h-1zM31 11h3v1h-3zM35 11h1v1h-1zM37 11h1v1h-1zM1 12h2v1h-2zM4 12h1v1h-1zM6 12h4v1h-4zM11 12h6v1h-6zM18 12h8v1h-8zM30 12h1v1h-1zM32 12h3v1h-3zM39 12h2v1h-2zM0 13h1v1h-1zM5 13h1v1h-1zM7 13h1v1h-1zM13 13h2v1h-2zM16 13h1v1h-1zM18 13h2v1h-2zM22 13h5v1h-5zM29 13h3v1h-3zM35 13h3v1h-3zM40 13h1v1h-1zM0 14h1v1h-1zM2 14h1v1h-1zM4 14h1v1h-1zM6 14h2v1h-2zM9 14h1v1h-1zM11 14h1v1h-1zM13 14h1v1h-1zM22 14h1v1h-1zM26 14h2v1h-2zM29 14h1v1h-1zM33 14h2v1h-2zM37 14h2v1h-2zM40 14h1v1h-1zM1 15h1v1h-1zM4 15h1v1h-1zM7 15h1v1h-1zM11 15h3v1h-3zM15 15h1v1h-1zM18 15h2v1h-2zM22 15h2v1h-2zM28 15h1v1h-1zM31 15h1v1h-1zM33 15h1v1h-1zM35 15h1v1h-1zM37 15h2v1h-2zM1 16h1v1h-1zM3 16h5v1h-5zM12 16h3v1h-3zM17 16h1v1h-1zM19 16h1v1h-1zM21 16h1v1h-1zM27 16h1v1h-1zM30 16h4v1h-4zM40 16h1v1h-1zM0 17h1v1h-1zM2 17h1v1h-1zM4 17h2v1h-2zM8 17h2v1h-2zM14 17h2v1h-2zM17 17h2v1h-2zM22 17h3v1h-3zM26 17h2v1h-2zM30 17h4v1h-4zM36 17h2v1h-2zM1 18h2v1h-2zM4 18h1v1h-1zM6 18h1v1h-1zM11 18h1v1h-1zM13 18h1v1h-1zM15 18h2v1h-2zM20 18h2v1h-2zM24 18h1v1h-1zM27 18h1v1h-1zM31 18h6v1h-6zM40 18h1v1h-1zM3 19h2v1h-2zM7 19h1v1h-1zM9 19h1v1h-1zM11 19h1v1h-1zM13 19h3v1h-3zM17 19h3v1h-3zM22 19h1v1h-1zM25 19h1v1h-1zM28 19h3v1h-3zM33 19h2v1h-2zM36 19h1v1h-1zM38 19h2v1h-2zM0 20h2v1h-2zM3 20h1v1h-1zM6 20h1v1h-1zM9 20h2v1h-2zM12 20h1v1h-1zM16 20h1v1h-1zM20 20h1v1h-1zM26 20h3v1h-3zM34 20h1v1h-1zM37 20h3v1h-3zM3 21h2v1h-2zM7 21h1v1h-1zM9 21h1v1h-1zM11 21h2v1h-2zM16 21h2v1h-2zM19 21h3v1h-3zM25 21h1v1h-1zM27 21h1v1h-1zM29 21h3v1h-3zM36 21h3v1h-3zM3 22h4v1h-4zM8 22h1v1h-1zM10 22h3v1h-3zM16 22h1v1h-1zM18 22h8v1h-8zM27 22h4v1h-4zM32 22h1v1h-1zM36 22h1v1h-1zM38 22h1v1h-1zM0 23h2v1h-2zM5 23h1v1h-1zM9 23h3v1h-3zM14 23h3v1h-3zM21 23h6v1h-6zM29 23h7v1h-7zM37 23h1v1h-1zM39 23h2v1h-2zM2 24h1v1h-1zM4 24h1v1h-1zM6 24h1v1h-1zM10 24h1v1h-1zM13 24h3v1h-3zM17 24h4v1h-4zM24 24h1v1h-1zM26 24h3v1h-3zM32 24h1v1h-1zM34 24h2v1h-2zM37 24h1v1h-1zM39 24h2v1h-2zM0 25h3v1h-3zM4 25h1v1h-1zM7 25h1v1h-1zM9 25h2v1h-2zM13 25h1v1h-1zM15 25h1v1h-1zM17 25h1v1h-1zM24 25h2v1h-2zM27 25h4v1h-4zM32 25h1v1h-1zM34 25h3v1h-3zM38 25h1v1h-1zM2 26h1v1h-1zM6 26h1v1h-1zM10 26h1v1h-1zM13 26h2v1h-2zM17 26h1v1h-1zM23 26h1v1h-1zM27 26h1v1h-1zM31 26h2v1h-2zM36 26h2v1h-2zM40 26h1v1h-1zM3 27h1v1h-1zM7 27h1v1h-1zM9 27h1v1h-1zM11 27h1v1h-1zM13 27h1v1h-1zM15 27h3v1h-3zM22 27h1v1h-1zM24 27h1v1h-1zM26 27h2v1h-2zM31 27h1v1h-1zM35 27h6v1h-6zM0 28h1v1h-1zM2 28h9v1h-9zM12 28h1v1h-1zM14 28h1v1h-1zM16 28h2v1h-2zM19 28h3v1h-3zM23 28h1v1h-1zM25 28h1v1h-1zM31 28h1v1h-1zM34 28h2v1h-2zM37 28h1v1h-1zM39 28h1v1h-1zM0 29h1v1h-1zM2 29h1v1h-1zM4 29h1v1h-1zM7 29h2v1h-2zM10 29h3v1h-3zM14 29h1v1h-1zM18 29h1v1h-1zM21 29h3v1h-3zM34 29h1v1h-1zM36 29h3v1h-3zM0 30h2v1h-2zM3 30h1v1h-1zM6 30h2v1h-2zM9 30h1v1h-1zM12 30h1v1h-1zM14 30h3v1h-3zM19 30h1v1h-1zM24 30h3v1h-3zM28 30h1v1h-1zM31 30h1v1h-1zM33 30h1v1h-1zM35 30h2v1h-2zM39 30h2v1h-2zM0 31h2v1h-2zM3 31h1v1h-1zM8 31h1v1h-1zM12 31h4v1h-4zM17 31h2v1h-2zM20 31h2v1h-2zM23 31h2v1h-2zM26 31h3v1h-3zM31 31h2v1h-2zM34 31h1v1h-1zM38 31h1v1h-1zM0 32h4v1h-4zM6 32h3v1h-3zM10 32h1v1h-1zM13 32h1v1h-1zM16 32h1v1h-1zM18 32h2v1h-2zM21 32h2v1h-2zM26 32h1v1h-1zM31 32h9v1h-9zM8 33h4v1h-4zM13 33h4v1h-4zM19 33h1v1h-1zM23 33h1v1h-1zM25 33h3v1h-3zM30 33h1v1h-1zM32 33h1v1h-1zM36 33h1v1h-1zM39 33h1v1h-1zM0 34h7v1h-7zM8 34h1v1h-1zM10 34h1v1h-1zM12 34h1v1h-1zM14 34h1v1h-1zM17 34h1v1h-1zM20 34h2v1h-2zM24 34h1v1h-1zM26 34h2v1h-2zM29 34h4v1h-4zM34 34h1v1h-1zM36 34h3v1h-3zM0 35h1v1h-1zM6 35h1v1h-1zM10 35h2v1h-2zM13 35h1v1h-1zM17 35h1v1h-1zM20 35h2v1h-2zM23 35h1v1h-1zM29 35h1v1h-1zM32 35h1v1h-1zM36 35h2v1h-2zM40 35h1v1h-1zM0 36h1v1h-1zM2 36h3v1h-3zM6 36h1v1h-1zM8 36h2v1h-2zM11 36h1v1h-1zM13 36h7v1h-7zM23 36h4v1h-4zM28 36h9v1h-9zM0 37h1v1h-1zM2 37h3v1h-3zM6 37h1v1h-1zM8 37h1v1h-1zM11 37h1v1h-1zM15 37h2v1h-2zM18 37h1v1h-1zM23 37h1v1h-1zM26 37h3v1h-3zM31 37h1v1h-1zM35 37h1v1h-1zM37 37h4v1h-4zM0 38h1v1h-1zM2 38h3v1h-3zM6 38h1v1h-1zM9 38h1v1h-1zM13 38h1v1h-1zM15 38h2v1h-2zM18 38h1v1h-1zM20 38h1v1h-1zM22 38h1v1h-1zM26 38h3v1h-3zM31 38h1v1h-1zM33 38h1v1h-1zM35 38h2v1h-2zM39 38h2v1h-2zM0 39h1v1h-1zM6 39h1v1h-1zM10 39h4v1h-4zM17 39h7v1h-7zM25 39h1v1h-1zM33 39h2v1h-2zM36 39h3v1h-3zM40 39h1v1h-1zM0 40h7v1h-7zM9 40h3v1h-3zM14 40h1v1h-1zM16 40h2v1h-2zM19 40h2v1h-2zM22 40h4v1h-4zM27 40h1v1h-1zM31 40h2v1h-2zM36 40h2v1h-2z"/>
+      <rect x="16.5" y="16.5" width="8" height="8" rx="1.6" fill="#ffd1e4"/>
+      <use href="#c-daisy" x="16.9" y="16.9" width="7.2" height="7.2"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="bar">
+  <p>Four party tickets on one A4 sheet. Print at 100% scale with <strong>background graphics</strong> turned on, then cut around each ticket, flowers and all. Write each guest's name on the line.</p>
+  <button type="button" onclick="print()">Print the tickets</button>
+</div>
+
+<main class="sheet">
+  <article class="pass" style="--band:linear-gradient(90deg, #ffc7da, #d7b8ff)" data-pop="a">
+    <div class="art" aria-hidden="true">
+      <i class="moon"></i>
+      <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i><i class="spark s4"></i>
+      <div class="ring"><b>7</b></div>
+      <svg class="bed" viewBox="0 0 200 120"><use href="#t-bed"/></svg>
+    </div>
+
+    <div class="main">
+      <header class="head">
+        <span class="kind">Party ticket</span>
+        <span class="flight">No. 7</span>
+      </header>
+      <h1 class="name">Luna <span>is turning seven</span></h1>
+      <dl class="fields">
+        <div><dt>Date</dt><dd>Sat, Nov 14, 2026</dd></div>
+        <div><dt>Starts</dt><dd>5:00 PM</dd></div>
+        <div><dt>Where</dt><dd>Sundays</dd></div>
+        <div class="write"><dt>Guest</dt><dd></dd></div>
+        <div><dt>Spot</dt><dd>Any flower bed</dd></div>
+      </dl>
+      <p class="addr"><b>Dress code:</b> party pinks &middot; J.P. Rizal St. corner V. Gomez St., Brgy. San Roque, Marikina City</p>
+    </div>
+
+    <svg class="pop pop-daisy" viewBox="-22 -22 44 44" aria-hidden="true"><use href="#c-daisy"/></svg>
+    <svg class="pop pop-tulip" viewBox="0 0 60 120" aria-hidden="true" style="--p:#ff9ec2"><use href="#c-tulip"/></svg>
+    <svg class="pop pop-fly" viewBox="0 0 100 80" aria-hidden="true"><use href="#c-fly"/></svg>
+
+    <div class="stub">
+      <svg class="qr" viewBox="-3 -3 47 47" role="img" aria-label="QR code that opens Luna's invitation"><use href="#qr"/></svg>
+      <p class="scan">Scan for the invitation, map and RSVP</p>
+      <p class="rsvp">RSVP by Nov 1</p>
+    </div>
+  </article>
+  <article class="pass" style="--band:linear-gradient(90deg, #d7b8ff, #ffc7da)" data-pop="b">
+    <div class="art" aria-hidden="true">
+      <i class="moon"></i>
+      <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i><i class="spark s4"></i>
+      <div class="ring"><b>7</b></div>
+      <svg class="bed" viewBox="0 0 200 120"><use href="#t-bed"/></svg>
+    </div>
+
+    <div class="main">
+      <header class="head">
+        <span class="kind">Party ticket</span>
+        <span class="flight">No. 7</span>
+      </header>
+      <h1 class="name">Luna <span>is turning seven</span></h1>
+      <dl class="fields">
+        <div><dt>Date</dt><dd>Sat, Nov 14, 2026</dd></div>
+        <div><dt>Starts</dt><dd>5:00 PM</dd></div>
+        <div><dt>Where</dt><dd>Sundays</dd></div>
+        <div class="write"><dt>Guest</dt><dd></dd></div>
+        <div><dt>Spot</dt><dd>Any flower bed</dd></div>
+      </dl>
+      <p class="addr"><b>Dress code:</b> party pinks &middot; J.P. Rizal St. corner V. Gomez St., Brgy. San Roque, Marikina City</p>
+    </div>
+
+    <svg class="pop pop-daisy" viewBox="-22 -22 44 44" aria-hidden="true"><use href="#c-daisy"/></svg>
+    <svg class="pop pop-tulip" viewBox="0 0 60 120" aria-hidden="true" style="--p:#ff9ec2"><use href="#c-tulip"/></svg>
+    <svg class="pop pop-fly" viewBox="0 0 100 80" aria-hidden="true"><use href="#c-fly"/></svg>
+
+    <div class="stub">
+      <svg class="qr" viewBox="-3 -3 47 47" role="img" aria-label="QR code that opens Luna's invitation"><use href="#qr"/></svg>
+      <p class="scan">Scan for the invitation, map and RSVP</p>
+      <p class="rsvp">RSVP by Nov 1</p>
+    </div>
+  </article>
+  <article class="pass" style="--band:linear-gradient(90deg, #ffe9a8, #ffc7da)" data-pop="c">
+    <div class="art" aria-hidden="true">
+      <i class="moon"></i>
+      <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i><i class="spark s4"></i>
+      <div class="ring"><b>7</b></div>
+      <svg class="bed" viewBox="0 0 200 120"><use href="#t-bed"/></svg>
+    </div>
+
+    <div class="main">
+      <header class="head">
+        <span class="kind">Party ticket</span>
+        <span class="flight">No. 7</span>
+      </header>
+      <h1 class="name">Luna <span>is turning seven</span></h1>
+      <dl class="fields">
+        <div><dt>Date</dt><dd>Sat, Nov 14, 2026</dd></div>
+        <div><dt>Starts</dt><dd>5:00 PM</dd></div>
+        <div><dt>Where</dt><dd>Sundays</dd></div>
+        <div class="write"><dt>Guest</dt><dd></dd></div>
+        <div><dt>Spot</dt><dd>Any flower bed</dd></div>
+      </dl>
+      <p class="addr"><b>Dress code:</b> party pinks &middot; J.P. Rizal St. corner V. Gomez St., Brgy. San Roque, Marikina City</p>
+    </div>
+
+    <svg class="pop pop-daisy" viewBox="-22 -22 44 44" aria-hidden="true"><use href="#c-daisy"/></svg>
+    <svg class="pop pop-tulip" viewBox="0 0 60 120" aria-hidden="true" style="--p:#ff9ec2"><use href="#c-tulip"/></svg>
+    <svg class="pop pop-fly" viewBox="0 0 100 80" aria-hidden="true"><use href="#c-fly"/></svg>
+
+    <div class="stub">
+      <svg class="qr" viewBox="-3 -3 47 47" role="img" aria-label="QR code that opens Luna's invitation"><use href="#qr"/></svg>
+      <p class="scan">Scan for the invitation, map and RSVP</p>
+      <p class="rsvp">RSVP by Nov 1</p>
+    </div>
+  </article>
+  <article class="pass" style="--band:linear-gradient(90deg, #ffc7da, #ffe9a8)" data-pop="d">
+    <div class="art" aria-hidden="true">
+      <i class="moon"></i>
+      <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i><i class="spark s4"></i>
+      <div class="ring"><b>7</b></div>
+      <svg class="bed" viewBox="0 0 200 120"><use href="#t-bed"/></svg>
+    </div>
+
+    <div class="main">
+      <header class="head">
+        <span class="kind">Party ticket</span>
+        <span class="flight">No. 7</span>
+      </header>
+      <h1 class="name">Luna <span>is turning seven</span></h1>
+      <dl class="fields">
+        <div><dt>Date</dt><dd>Sat, Nov 14, 2026</dd></div>
+        <div><dt>Starts</dt><dd>5:00 PM</dd></div>
+        <div><dt>Where</dt><dd>Sundays</dd></div>
+        <div class="write"><dt>Guest</dt><dd></dd></div>
+        <div><dt>Spot</dt><dd>Any flower bed</dd></div>
+      </dl>
+      <p class="addr"><b>Dress code:</b> party pinks &middot; J.P. Rizal St. corner V. Gomez St., Brgy. San Roque, Marikina City</p>
+    </div>
+
+    <svg class="pop pop-daisy" viewBox="-22 -22 44 44" aria-hidden="true"><use href="#c-daisy"/></svg>
+    <svg class="pop pop-tulip" viewBox="0 0 60 120" aria-hidden="true" style="--p:#ff9ec2"><use href="#c-tulip"/></svg>
+    <svg class="pop pop-fly" viewBox="0 0 100 80" aria-hidden="true"><use href="#c-fly"/></svg>
+
+    <div class="stub">
+      <svg class="qr" viewBox="-3 -3 47 47" role="img" aria-label="QR code that opens Luna's invitation"><use href="#qr"/></svg>
+      <p class="scan">Scan for the invitation, map and RSVP</p>
+      <p class="rsvp">RSVP by Nov 1</p>
+    </div>
+  </article>
+</main>
+
+</body>
+</html>
