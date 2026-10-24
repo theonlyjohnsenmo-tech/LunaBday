@@ -497,73 +497,161 @@ section.panel {
 
 .bed-row { max-width: 30rem; margin: 1.6rem auto 0; }
 
-/* ---------- Photos: a row of arches you swipe through ---------- */
+/* ---------- Photos: a flip-book, one arch at a time ---------- */
+.deck {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "prev stage next";
+  align-items: center;
+  gap: .8rem;
+  max-width: 34rem;
+  margin: 1.6rem auto 0;
+}
+
+#deckPrev { grid-area: prev; }
+#deckNext { grid-area: next; }
+
+/* Two arches peek out behind the photo, so it reads as a stack to flip through. */
+.deck-stage {
+  grid-area: stage;
+  position: relative;
+  aspect-ratio: 4 / 5;
+  touch-action: pan-y;
+}
+
+.deck-stage::before,
+.deck-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px 999px 1.4rem 1.4rem;
+  box-shadow: 0 .8rem 1.4rem -.8rem rgba(108, 31, 80, .4);
+}
+
+.deck-stage::before { rotate: -5deg; translate: -4% 2%; background: var(--blush); }
+.deck-stage::after  { rotate: 4deg; translate: 4% 1%; background: var(--lilac); }
+
+.deck-card {
+  all: unset;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 999px 999px 1.4rem 1.4rem;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: var(--card);
+  box-shadow: 0 0 0 .4rem #fff, 0 1.4rem 2.2rem -1rem rgba(108, 31, 80, .55);
+}
+
+.deck-card:focus-visible { outline: 3px solid var(--action); outline-offset: 8px; }
+.deck-card img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; pointer-events: none; }
+.deck-card.from-right { --dx: 16%; --rot: 4deg; animation: flipIn .5s var(--ease) both; }
+.deck-card.from-left  { --dx: -16%; --rot: -4deg; animation: flipIn .5s var(--ease) both; }
+
+@keyframes flipIn {
+  from { opacity: 0; translate: var(--dx) 0; rotate: var(--rot); }
+}
+
+/* Video cards carry a play button. */
+.deck-card.clip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5rem;
+  height: 5rem;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6.5v11l9-5.5z' fill='%238e2f6a'/%3E%3C/svg%3E") no-repeat 58% 50% / 2.4rem;
+  box-shadow: 0 .6rem 1.2rem -.4rem rgba(108, 31, 80, .5);
+}
+
+.deck-nav {
+  display: grid;
+  place-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--action);
+  cursor: pointer;
+  box-shadow: 0 .45rem .9rem -.35rem rgba(108, 31, 80, .45);
+  transition: translate .16s var(--ease), background .2s ease;
+}
+
+.deck-nav svg { width: 1.5rem; height: 1.5rem; }
+.deck-nav:hover { translate: 0 -2px; }
+.deck-nav:active { translate: 0 2px; background: var(--card); }
+.deck-nav:focus-visible { outline: 3px solid var(--action); outline-offset: 3px; }
+
+.deck-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .3rem;
+  min-height: 3.6em;
+  margin: 1.5rem auto 0;
+  max-width: 30rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.deck-count {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The ribbon: every photo as a small moon, the current one ringed. */
 .tray {
   display: flex;
-  gap: 1.1rem;
-  margin: 1.4rem calc(50% - 50vw) 0;
-  padding: .8rem max(1.25rem, calc(50vw - 20rem)) 1.6rem;
+  gap: .6rem;
+  margin: .4rem calc(50% - 50vw) 0;
+  padding: .7rem max(1.25rem, calc(50vw - 18rem)) 1rem;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding: 0 max(1.25rem, calc(50vw - 20rem));
   scrollbar-width: none;
-  overscroll-behavior-x: contain;
 }
 
 .tray::-webkit-scrollbar { display: none; }
 
 .tray button {
   all: unset;
+  position: relative;
   flex: 0 0 auto;
-  width: min(44vw, 12.5rem);
-  aspect-ratio: 3 / 4;
-  border-radius: 999px 999px 1.1rem 1.1rem;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
   overflow: hidden;
-  cursor: zoom-in;
-  scroll-snap-align: start;
+  cursor: pointer;
   background: var(--card);
-  box-shadow: 0 0 0 .3rem #fff, 0 .9rem 1.4rem -.7rem rgba(108, 31, 80, .45);
-  transition: translate .4s var(--ease);
+  box-shadow: 0 0 0 .18rem #fff;
+  opacity: .7;
+  transition: opacity .2s ease, box-shadow .2s ease, scale .2s var(--ease);
 }
 
-.tray button:hover { translate: 0 -.3rem; }
-.tray button:focus-visible { outline: 3px solid var(--action); outline-offset: 5px; }
+.tray button:hover { opacity: 1; }
+.tray button.on { opacity: 1; scale: 1.12; box-shadow: 0 0 0 .18rem #fff, 0 0 0 .38rem var(--action); }
+.tray button:focus-visible { outline: 3px solid var(--action); outline-offset: 4px; }
 .tray img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 
-.tray .clip { position: relative; }
-
-/* The play button, and the clip's name on a soft pill. */
-.tray .clip::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  top: 46%;
-  width: 4.2rem;
-  height: 4.2rem;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6.5v11l9-5.5z' fill='%238e2f6a'/%3E%3C/svg%3E") no-repeat 58% 50% / 2rem;
-  box-shadow: 0 .6rem 1.2rem -.4rem rgba(108, 31, 80, .5);
-  transition: scale .3s var(--ease);
+/* On a phone the photo takes the full width and the arrows sit beneath it. */
+@media (max-width: 34rem) {
+  .deck { grid-template-columns: 1fr 1fr; grid-template-areas: "stage stage" "prev next"; row-gap: 1.3rem; }
+  .deck-stage { margin: 0 1.3rem; }
+  #deckPrev { justify-self: end; margin-right: .7rem; }
+  #deckNext { justify-self: start; margin-left: .7rem; }
 }
 
-.tray .clip:hover::before { scale: 1.08; }
-
-.tray .clip span {
+.tray .clip::after {
+  content: "";
   position: absolute;
-  z-index: 1;
-  left: .7rem;
-  right: .7rem;
-  bottom: .7rem;
-  padding: .35rem .6rem;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, .92);
-  color: var(--ink);
-  font-size: .82rem;
-  font-weight: 700;
-  line-height: 1.2;
-  text-align: center;
+  inset: 0;
+  background: rgba(78, 28, 66, .35) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6.5v11l9-5.5z' fill='%23fff'/%3E%3C/svg%3E") no-repeat 55% 50% / 1.4rem;
 }
 
 .vbox {
@@ -1235,7 +1323,7 @@ section.panel .chips { justify-content: center; }
   </defs>
 </svg>
 
-<button class="edit-open" id="editOpen" type="button">
+<button class="edit-open" id="editOpen" type="button" hidden>
   <svg viewBox="0 0 24 24"><use href="#i-pencil"/></svg>
   Edit page
 </button>
@@ -1327,7 +1415,13 @@ section.panel .chips { justify-content: center; }
   <section class="panel collection" id="collection" hidden>
     <h2 id="galleryTitle">Our Luna</h2>
     <p class="blurb" id="galleryNote"></p>
-    <div class="tray" id="tray"></div>
+    <div class="deck" id="deck">
+      <button class="deck-nav" id="deckPrev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24"><use href="#i-left"/></svg></button>
+      <div class="deck-stage" id="deckStage"></div>
+      <button class="deck-nav" id="deckNext" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24"><use href="#i-right"/></svg></button>
+    </div>
+    <p class="deck-caption" aria-live="polite"><span id="deckCaption"></span><span class="deck-count" id="deckCount"></span></p>
+    <div class="tray" id="tray" aria-label="All photos"></div>
     <svg class="bed bed-row" viewBox="0 0 400 120" preserveAspectRatio="xMidYMax meet" aria-hidden="true"></svg>
   </section>
 
@@ -1684,7 +1778,7 @@ const DEFAULTS = {
 
   gallery: {
     title: "Our Luna",
-    note: "Seven years of her. Swipe through, and tap any photo to see it bigger."
+    note: "Seven years of her. Flip through with the arrows or a swipe, and tap a photo to see it bigger."
   },
 
   film: {
@@ -1693,10 +1787,11 @@ const DEFAULTS = {
   },
 
   rsvp: {
-    note: "Please let us know on or before November 1, 2026.",
+    note: "Please let us know on or before November 7, 2026.",
     contacts: [
-      { label: "Message Kon", url: "" },
-      { label: "Message Mom", url: "" }
+      { label: "Text 0919 001 9813", url: "sms:+639190019813" },
+      { label: "Email us", url: "mailto:theonlyjohnsenmo@gmail.com?subject=RSVP%20for%20Luna%27s%207th%20birthday" },
+      { label: "Message on Messenger", url: "" }
     ]
   },
 
@@ -2020,42 +2115,81 @@ function renderPhotos() {
     $("windowEmpty").hidden = false;
   }
 
+  const rest = photos.slice(1);
+  deckItems = [
+    ...rest.map((photo, index) => ({ kind: "photo", src: photo.src, alt: photo.alt || "", open: () => openLightbox(index + 1) })),
+    ...CLIPS.map((clip) => ({ kind: "clip", src: clip.poster, alt: clip.title, open: () => openClip(clip) }))
+  ];
+  $("collection").hidden = deckItems.length === 0;
+
   const tray = $("tray");
   tray.textContent = "";
-
-  const rest = photos.slice(1);
-  $("collection").hidden = rest.length === 0 && !CLIPS.length;
-
-  rest.forEach((photo, index) => {
+  deckItems.forEach((item, i) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.setAttribute("aria-label", "View photo " + (index + 2));
-    button.addEventListener("click", () => openLightbox(index + 1));
-    button.style.transitionDelay = Math.min(index * 70, 420) + "ms";
-    seatOnScroll(button);
-
+    if (item.kind === "clip") button.className = "clip";
+    button.setAttribute("aria-label", (item.kind === "clip" ? "Video: " : "Photo " + (i + 1) + ": ") + item.alt);
+    button.addEventListener("click", () => showDeck(i, i > deckIndex ? 1 : -1));
     const img = document.createElement("img");
-    img.src = photo.src;
-    img.alt = photo.alt || "";
-    img.loading = "lazy";
-    img.decoding = "async";
-
+    img.src = item.src; img.alt = ""; img.loading = "lazy"; img.decoding = "async";
     button.appendChild(img);
     tray.appendChild(button);
   });
+  showDeck(Math.min(deckIndex, deckItems.length - 1), 0, false);
+}
 
-  CLIPS.forEach((clip) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "clip";
-    button.setAttribute("aria-label", "Play video: " + clip.title);
-    button.addEventListener("click", () => openClip(clip));
-    const img = document.createElement("img");
-    img.src = clip.poster; img.alt = ""; img.loading = "lazy"; img.decoding = "async";
-    const label = document.createElement("span");
-    label.textContent = clip.title;
-    button.append(img, label);
-    tray.appendChild(button);
+/* ---------- The flip-book: one photo at a time ---------- */
+let deckItems = [];
+let deckIndex = 0;
+let deckSwiped = false;
+
+function showDeck(i, dir = 0, scrollThumb = true) {
+  if (!deckItems.length) return;
+  deckIndex = (i + deckItems.length) % deckItems.length;
+  const item = deckItems[deckIndex];
+  const stage = $("deckStage");
+  stage.textContent = "";
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = "deck-card" + (item.kind === "clip" ? " clip" : "") + (dir > 0 ? " from-right" : dir < 0 ? " from-left" : "");
+  card.setAttribute("aria-label", item.kind === "clip" ? "Play video: " + item.alt : "See this photo bigger");
+  card.addEventListener("click", () => { if (!deckSwiped) item.open(); });
+  const img = document.createElement("img");
+  img.src = item.src; img.alt = item.alt; img.decoding = "async";
+  card.appendChild(img);
+  stage.appendChild(card);
+  $("deckCaption").textContent = item.alt;
+  $("deckCount").textContent = (deckIndex + 1) + " of " + deckItems.length;
+  const tray = $("tray");
+  [...tray.children].forEach((b, k) => b.classList.toggle("on", k === deckIndex));
+  const on = tray.children[deckIndex];
+  if (on && scrollThumb) {
+    tray.scrollTo({ left: on.offsetLeft - tray.clientWidth / 2 + on.clientWidth / 2, behavior: reduceMotion.matches ? "auto" : "smooth" });
+  }
+  // Warm the next photo so the flip never waits.
+  const next = deckItems[(deckIndex + 1) % deckItems.length];
+  if (next) { const pre = new Image(); pre.src = next.src; }
+}
+
+function setUpDeck() {
+  $("deckPrev").addEventListener("click", () => showDeck(deckIndex - 1, -1));
+  $("deckNext").addEventListener("click", () => showDeck(deckIndex + 1, 1));
+  $("deck").addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") { showDeck(deckIndex - 1, -1); event.preventDefault(); }
+    if (event.key === "ArrowRight") { showDeck(deckIndex + 1, 1); event.preventDefault(); }
+  });
+  let x0 = null;
+  const stage = $("deckStage");
+  stage.addEventListener("pointerdown", (event) => { x0 = event.clientX; deckSwiped = false; });
+  stage.addEventListener("pointerup", (event) => {
+    if (x0 === null) return;
+    const dx = event.clientX - x0;
+    x0 = null;
+    if (Math.abs(dx) > 40) {
+      deckSwiped = true;
+      showDeck(deckIndex + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+      setTimeout(() => { deckSwiped = false; }, 60);
+    }
   });
 }
 
@@ -2079,9 +2213,9 @@ function renderRsvpChips() {
     return;
   }
 
-  ready.forEach((contact) => {
+  ready.forEach((contact, i) => {
     const link = document.createElement("a");
-    link.className = "chip foil";
+    link.className = i === 0 ? "chip foil" : "chip";
     link.href = contact.url;
     link.rel = "noopener";
     link.innerHTML = '<svg viewBox="0 0 24 24"><use href="#i-chat"/></svg>';
@@ -3190,13 +3324,14 @@ async function init() {
   setUpTwilight();
   setUpLightbox();
   setUpClips();
+  setUpDeck();
   setUpCalendarButtons();
   setUpEditor();
   setUpWish();
   startCountdown();
 
   if (hadDraft) note("Picked up where you left off.");
-  if (location.hash === "#edit") openEditor();
+  if (location.hash === "#edit") { $("editOpen").hidden = false; openEditor(); }
 }
 
 init();
