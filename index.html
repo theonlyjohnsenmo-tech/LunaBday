@@ -305,7 +305,7 @@ h2 {
 
 @keyframes ring { to { box-shadow: 0 0 0 .35rem #fff, 0 0 3.5rem 1.2rem rgba(255, 228, 242, .95); } }
 
-.window img { width: 100%; height: 100%; object-fit: cover; }
+.window img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
 
 .window button.shot { all: unset; display: block; position: absolute; inset: 0; border-radius: 50%; cursor: zoom-in; }
 .window button.shot:focus-visible { outline: 3px solid var(--action); outline-offset: 6px; }
@@ -497,24 +497,95 @@ section.panel {
 
 .bed-row { max-width: 30rem; margin: 1.6rem auto 0; }
 
-/* ---------- Photos: round, each with its own glow ---------- */
-.tray { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; margin-top: 1.4rem; }
+/* ---------- Photos: a row of arches you swipe through ---------- */
+.tray {
+  display: flex;
+  gap: 1.1rem;
+  margin: 1.4rem calc(50% - 50vw) 0;
+  padding: .8rem max(1.25rem, calc(50vw - 20rem)) 1.6rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 max(1.25rem, calc(50vw - 20rem));
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.tray::-webkit-scrollbar { display: none; }
 
 .tray button {
   all: unset;
-  flex: 0 1 8.5rem;
-  min-width: 7rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
+  flex: 0 0 auto;
+  width: min(44vw, 12.5rem);
+  aspect-ratio: 3 / 4;
+  border-radius: 999px 999px 1.1rem 1.1rem;
   overflow: hidden;
   cursor: zoom-in;
-  box-shadow: 0 0 0 .3rem #fff, 0 0 1.6rem .3rem rgba(255, 255, 255, .7);
+  scroll-snap-align: start;
+  background: var(--card);
+  box-shadow: 0 0 0 .3rem #fff, 0 .9rem 1.4rem -.7rem rgba(108, 31, 80, .45);
   transition: translate .4s var(--ease);
 }
 
 .tray button:hover { translate: 0 -.3rem; }
 .tray button:focus-visible { outline: 3px solid var(--action); outline-offset: 5px; }
-.tray img { width: 100%; height: 100%; object-fit: cover; }
+.tray img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+
+.tray .clip { position: relative; }
+
+/* The play button, and the clip's name on a soft pill. */
+.tray .clip::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 46%;
+  width: 4.2rem;
+  height: 4.2rem;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6.5v11l9-5.5z' fill='%238e2f6a'/%3E%3C/svg%3E") no-repeat 58% 50% / 2rem;
+  box-shadow: 0 .6rem 1.2rem -.4rem rgba(108, 31, 80, .5);
+  transition: scale .3s var(--ease);
+}
+
+.tray .clip:hover::before { scale: 1.08; }
+
+.tray .clip span {
+  position: absolute;
+  z-index: 1;
+  left: .7rem;
+  right: .7rem;
+  bottom: .7rem;
+  padding: .35rem .6rem;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .92);
+  color: var(--ink);
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.vbox {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  max-width: min(94vw, 30rem);
+  overflow: visible;
+}
+
+.vbox::backdrop { background: rgba(60, 20, 58, .92); }
+
+.vbox video {
+  display: block;
+  width: 100%;
+  max-height: 86svh;
+  border-radius: 1.2rem;
+  background: #2a1030;
+  box-shadow: 0 0 0 .3rem #fff, 0 2rem 3rem -1rem rgba(0, 0, 0, .7);
+}
+
+.vbox .lb-close { position: fixed; }
 
 /* ---------- Dress-code colours, as tulips ---------- */
 .chips-colour { display: flex; flex-wrap: wrap; justify-content: center; gap: .9rem; padding: 0; margin: 1.4rem 0 0; list-style: none; }
@@ -1369,6 +1440,13 @@ section.panel .chips { justify-content: center; }
 
 </main>
 
+<dialog class="vbox" id="videoBox" aria-label="Video">
+  <button class="lb-btn lb-close" id="videoClose" type="button" aria-label="Close">
+    <svg viewBox="0 0 24 24"><use href="#i-x"/></svg>
+  </button>
+  <video id="videoPlayer" controls playsinline preload="none"></video>
+</dialog>
+
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
   <button class="lb-btn lb-close" id="lightboxClose" type="button" aria-label="Close">
     <svg viewBox="0 0 24 24"><use href="#i-x"/></svg>
@@ -1606,7 +1684,7 @@ const DEFAULTS = {
 
   gallery: {
     title: "Our Luna",
-    note: "Seven years of her. Tap any photo to see it bigger."
+    note: "Seven years of her. Swipe through, and tap any photo to see it bigger."
   },
 
   film: {
@@ -1632,7 +1710,32 @@ const DEFAULTS = {
   ],
 
   photos: [
-    { src: "images/photo-1.jpg", alt: "Luna" }
+    { src: "images/photo-1.jpg", alt: "Luna in a red dress, standing in a sunny field" },
+    { src: "images/photo-2.jpg", alt: "Luna with her family" },
+    { src: "images/photo-3.jpg", alt: "Baby Luna in a headband" },
+    { src: "images/photo-4.jpg", alt: "Baby Luna with a yellow bow" },
+    { src: "images/photo-5.jpg", alt: "Little Luna in a Superman dress" },
+    { src: "images/photo-6.jpg", alt: "Little Luna in a unicorn dress" },
+    { src: "images/photo-7.jpg", alt: "Luna in a big hug" },
+    { src: "images/photo-8.jpg", alt: "Luna lifted up at the beach" },
+    { src: "images/photo-9.jpg", alt: "Luna in matching white dresses" },
+    { src: "images/photo-10.jpg", alt: "Luna in a tiara" },
+    { src: "images/photo-11.jpg", alt: "Luna under a yellow umbrella in the mountains" },
+    { src: "images/photo-12.jpg", alt: "Luna in a sparkly pink dress" },
+    { src: "images/photo-13.jpg", alt: "Luna dressed as a Jedi" },
+    { src: "images/photo-14.jpg", alt: "Luna smiling, up close" },
+    { src: "images/photo-15.jpg", alt: "Luna in a white dress on the lawn" },
+    { src: "images/photo-16.jpg", alt: "Luna in a pink princess gown" },
+    { src: "images/photo-17.jpg", alt: "Luna at Christmas, peeking through red paper" },
+    { src: "images/photo-18.jpg", alt: "Luna after her fun run" },
+    { src: "images/photo-19.jpg", alt: "Luna by the glass house in the garden" },
+    { src: "images/photo-20.jpg", alt: "Luna making a funny face" },
+    { src: "images/photo-21.jpg", alt: "Luna in a white dress" },
+    { src: "images/photo-22.jpg", alt: "Luna in a white dress, up close" },
+    { src: "images/photo-23.jpg", alt: "Luna in her graduation gown" },
+    { src: "images/photo-24.jpg", alt: "Luna riding her bike" },
+    { src: "images/photo-25.jpg", alt: "Luna at the beach" },
+    { src: "images/photo-26.jpg", alt: "Luna on stage with her certificate" }
   ],
 
   signOff: "With love, the family"
@@ -1921,7 +2024,7 @@ function renderPhotos() {
   tray.textContent = "";
 
   const rest = photos.slice(1);
-  $("collection").hidden = rest.length === 0;
+  $("collection").hidden = rest.length === 0 && !CLIPS.length;
 
   rest.forEach((photo, index) => {
     const button = document.createElement("button");
@@ -1938,6 +2041,20 @@ function renderPhotos() {
     img.decoding = "async";
 
     button.appendChild(img);
+    tray.appendChild(button);
+  });
+
+  CLIPS.forEach((clip) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "clip";
+    button.setAttribute("aria-label", "Play video: " + clip.title);
+    button.addEventListener("click", () => openClip(clip));
+    const img = document.createElement("img");
+    img.src = clip.poster; img.alt = ""; img.loading = "lazy"; img.decoding = "async";
+    const label = document.createElement("span");
+    label.textContent = clip.title;
+    button.append(img, label);
     tray.appendChild(button);
   });
 }
@@ -2203,6 +2320,27 @@ function closeLightbox() {
   $("lightbox").hidden = true;
   document.body.style.overflow = "";
   if (lastFocused) lastFocused.focus();
+}
+
+/* ---------- Video clips in the gallery ---------- */
+const CLIPS = [
+  { src: "video/barbie-1.mp4", poster: "video/barbie-1.jpg", title: "Luna with Barbie" },
+  { src: "video/barbie-2.mp4", poster: "video/barbie-2.jpg", title: "Best friends, with Barbie" }
+];
+
+function openClip(clip) {
+  const box = $("videoBox"), player = $("videoPlayer");
+  player.poster = clip.poster;
+  player.src = clip.src;
+  box.showModal();
+  player.play().catch(() => {});
+}
+
+function setUpClips() {
+  const box = $("videoBox"), player = $("videoPlayer");
+  $("videoClose").addEventListener("click", () => box.close());
+  box.addEventListener("click", (event) => { if (event.target === box) box.close(); });
+  box.addEventListener("close", () => { player.pause(); player.removeAttribute("src"); player.load(); });
 }
 
 function setUpLightbox() {
@@ -3051,6 +3189,7 @@ async function init() {
   setUpSeating();
   setUpTwilight();
   setUpLightbox();
+  setUpClips();
   setUpCalendarButtons();
   setUpEditor();
   setUpWish();
