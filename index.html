@@ -610,9 +610,10 @@ section.panel {
 /* The ribbon: every photo as a small moon, the current one ringed. */
 .tray {
   display: flex;
+  justify-content: safe center;
   gap: .6rem;
   margin: .4rem calc(50% - 50vw) 0;
-  padding: .7rem max(1.25rem, calc(50vw - 18rem)) 1rem;
+  padding: .7rem 1.25rem 1rem;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -2116,9 +2117,10 @@ function renderPhotos() {
   }
 
   const rest = photos.slice(1);
+  // The Barbie videos lead, then the photos.
   deckItems = [
-    ...rest.map((photo, index) => ({ kind: "photo", src: photo.src, alt: photo.alt || "", open: () => openLightbox(index + 1) })),
-    ...CLIPS.map((clip) => ({ kind: "clip", src: clip.poster, alt: clip.title, open: () => openClip(clip) }))
+    ...CLIPS.map((clip) => ({ kind: "clip", src: clip.poster, alt: clip.title, open: () => openClip(clip) })),
+    ...rest.map((photo, index) => ({ kind: "photo", src: photo.src, alt: photo.alt || "", open: () => openLightbox(index + 1) }))
   ];
   $("collection").hidden = deckItems.length === 0;
 
