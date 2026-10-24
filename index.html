@@ -393,6 +393,7 @@ h2 {
 .cell > .label { margin-bottom: .25rem; }
 
 .when-date { font-weight: 700; font-size: clamp(1.4rem, 5.2vw, 1.8rem); line-height: 1.15; margin: 0; }
+.arrive { margin: -.55rem 0 .85rem; font-weight: 600; font-size: .95rem; color: var(--ink); }
 .when-time { margin: .1rem 0 .85rem; font-weight: 600; font-size: 1.12rem; color: var(--ink-soft); }
 .cell-line { margin: 0; font-weight: 700; font-size: 1.3rem; line-height: 1.2; }
 .cell-sub { margin: .25rem 0 0; font-size: .98rem; line-height: 1.5; }
@@ -1372,6 +1373,7 @@ section.panel .chips { justify-content: center; }
         <p class="label">Date</p>
         <p class="when-date" id="whenDate"></p>
         <p class="when-time" id="whenTime"></p>
+        <p class="arrive">Please arrive by 4:30 PM so you don't miss a thing.</p>
         <p class="label">Blooming in</p>
         <div class="countdown" id="countdown">
           <div class="unit"><b data-unit="days">--</b><span>days</span></div>
@@ -1399,7 +1401,6 @@ section.panel .chips { justify-content: center; }
       </section>
 
       <div class="spec-strip">
-        <span class="age">Spot: any flower bed</span>
         <span id="specGuests">Guests included</span>
         <span id="specDate">Nov 14 2026</span>
       </div>
