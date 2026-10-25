@@ -882,14 +882,11 @@ section.panel .chips { justify-content: center; }
   font-variant-numeric: tabular-nums;
 }
 
-/* Reduced motion: the garden is already grown and still. */
+/* Reduce Motion (on by default on many iPhones) keeps the gentle garden:
+   flowers still grow and sway, sparkles twinkle, the butterfly flies.
+   Only the spinning, tilting and scroll gusts stop. */
 @media (prefers-reduced-motion: reduce) {
-  .bed .stem { stroke-dashoffset: 0; }
-  .bed .leafy, .bed .head { transform: none; }
-  .bed .stem, .bed .leafy, .bed .head { transition: none; }
-  .bed .turning, .bed .spinning,
-  .window, .orbit, .logotype { animation: none; }
-  .flyby, .sky { display: none; }
+  .bed .turning, .bed .spinning, .orbit { animation: none; }
 }
 
 /* ============================================================
@@ -1219,11 +1216,6 @@ section.panel .chips { justify-content: center; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: .001ms !important;
-    animation-delay: 0ms !important;
-    transition-duration: .001ms !important;
-  }
 }
 </style>
 </head>
@@ -2364,7 +2356,8 @@ function setUpTwilight() {
   }, { threshold: .35 });
   beds.forEach((bed) => grows.observe(bed));
 
-  if (reduceMotion.matches) return;
+  // With Reduce Motion on, the garden stays gentle: no tilt and no scroll gusts.
+  const gentle = reduceMotion.matches;
 
   // The breeze: a gentle wind, the pointer or phone tilt, and a gust when you scroll fast.
   // It only runs while a flower bed is on screen.
@@ -2375,6 +2368,7 @@ function setUpTwilight() {
   let lean = 0, gust = 0, lastY = window.scrollY, running = false;
 
   function tiltRing(x, y) {
+    if (gentle) return;
     ring.style.setProperty("--rx", (y * -10).toFixed(2) + "deg");
     ring.style.setProperty("--ry", (x * 12).toFixed(2) + "deg");
   }
@@ -2388,14 +2382,14 @@ function setUpTwilight() {
     lean = Math.max(-1, Math.min(1, event.gamma / 30));
     tiltRing(lean, Math.max(-1, Math.min(1, (event.beta - 45) / 45)) * .5);
   }, { passive: true });
-  if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {
+  if (!gentle && window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {
     document.addEventListener("click", () => DeviceOrientationEvent.requestPermission().catch(() => {}), { once: true });
   }
 
   function breeze(t) {
     if (!onScreen.size) { running = false; return; }
     const y = window.scrollY;
-    gust = gust * .92 + Math.max(-14, Math.min(14, (y - lastY) * .25));
+    gust = gentle ? 0 : gust * .92 + Math.max(-14, Math.min(14, (y - lastY) * .25));
     lastY = y;
     const wind = (Math.sin(t / 1700) * 4 + Math.sin(t / 610) * 1.2 + lean * 7 + gust).toFixed(2);
     const px = (lean + gust / 14).toFixed(3);
