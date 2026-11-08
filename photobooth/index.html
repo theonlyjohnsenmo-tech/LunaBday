@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photobooth frames</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Satisfy&display=swap" rel="stylesheet">
+<style>
+/* Luna's photobooth frames in the twilight-garden look. The photo boxes keep
+   the same places as the booth's original templates. Open with #1 to #4 to
+   show one frame full size (that is how the PNGs are made). */
+:root { --ink: #4e1c42; --action: #8e2f6a; color-scheme: light; }
+* { box-sizing: border-box; }
+html { background: linear-gradient(180deg, #ffd6e6, #edc3ea 60%, #dcc3f5); min-height: 100%; }
+body { margin: 0; color: var(--ink); font-family: "Quicksand", system-ui, sans-serif; font-weight: 600; line-height: 1.5; }
+.top { max-width: 44rem; margin: 0 auto; padding: 2.4rem 1.25rem .4rem; text-align: center; }
+.top h1 { font-family: "Satisfy", cursive; font-weight: 400; font-size: clamp(2.4rem, 8vw, 3.6rem); line-height: 1.15; margin: 0; color: var(--action); }
+.top p { margin: .4rem 0 0; }
+.top .all { display: inline-block; margin-top: .4rem; padding: .7rem 1.3rem; border-radius: 999px; background: var(--action); color: #fff; font-weight: 700; text-decoration: none; }
+.frames { padding: 1rem 1rem 3rem; }
+.look { max-width: 82rem; margin: 0 auto 3rem; text-align: center; }
+.look h2 { margin: 0; font-family: "Satisfy", cursive; font-weight: 400; font-size: 2.4rem; color: var(--action); }
+.look > p { margin: .2rem auto 1.2rem; max-width: 40rem; }
+.row { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 1.6rem; }
+.frames figure { margin: 0; text-align: center; }
+.frames svg { display: block; height: auto; box-shadow: 0 .8rem 1.6rem -.8rem rgba(108,31,80,.6); }
+.frames .wide svg { width: min(92vw, 26rem); }
+.frames .tall svg { width: min(92vw, 17.3rem); }
+.frames figcaption { margin-top: .6rem; }
+.frames a { color: var(--action); font-weight: 700; }
+body.one { background: none; }
+body.one .top { display: none; }
+body.one .frames { display: block; padding: 0; }
+body.one .look { margin: 0; max-width: none; }
+body.one .look > h2, body.one .look > p { display: none; }
+body.one .row { display: block; }
+body.one figure { display: none; }
+body.one figure.show { display: block; }
+body.one figcaption { display: none; }
+body.one .frames svg { width: 100vw; height: 100vh; box-shadow: none; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="daisy" viewBox="-22 -22 44 44">
+      <g style="fill:var(--p,#fff7fb)"><ellipse rx="4" ry="11" cy="-11"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(36)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(72)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(108)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(144)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(180)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(216)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(252)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(288)"/><ellipse rx="4" ry="11" cy="-11" transform="rotate(324)"/></g>
+      <circle r="5.5" fill="#f5c04e"/>
+    </symbol>
+    <symbol id="tulip" viewBox="0 0 60 120">
+      <path d="M30 64C34 84 28 100 30 118" fill="none" stroke="#79b98d" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M30 98C42 96 50 86 48 74 36 76 30 86 30 98Z" fill="#8fcaa1"/>
+      <path d="M12 50C12 26 22 14 30 14 38 14 48 26 48 50 48 68 12 68 12 50Z" style="fill:var(--p,#ff9ec2)"/>
+    </symbol>
+    <symbol id="fly" viewBox="0 0 100 80">
+      <path d="M48 38C38 10 8 6 8 26 8 42 30 44 48 40ZM48 42C30 46 18 58 26 70 34 78 46 64 48 48Z" style="fill:var(--w1,#fff)"/>
+      <path d="M52 38C62 10 92 6 92 26 92 42 70 44 52 40ZM52 42C70 46 82 58 74 70 66 78 54 64 52 48Z" style="fill:var(--w2,#ffd1e4)"/>
+      <path d="M50 28V62" stroke="#8e2f6a" stroke-width="5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="spark" viewBox="-12 -12 24 24">
+      <circle r="7" fill="#fff7c2" opacity=".55"/>
+      <path d="M0 -12Q1.6 -1.6 12 0 1.6 1.6 0 12-1.6 1.6-12 0-1.6-1.6 0-12Z" fill="#fff"/>
+    </symbol>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd6e6"/><stop offset=".45" stop-color="#f9c9e2"/><stop offset=".78" stop-color="#edc3ea"/><stop offset="1" stop-color="#dcc3f5"/></linearGradient>
+    <radialGradient id="moon" cx=".4" cy=".38" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#fff1f6"/><stop offset=".8" stop-color="#ffd3e6"/><stop offset="1" stop-color="#ffd3e6" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glow"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <filter id="lift" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#6c1f50" flood-opacity=".28"/></filter>
+    <linearGradient id="night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2e1a52"/><stop offset=".42" stop-color="#5c3489"/><stop offset=".75" stop-color="#a86fb8"/><stop offset="1" stop-color="#f0bcd8"/></linearGradient>
+    <linearGradient id="blush" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6f9"/><stop offset="1" stop-color="#fde1ee"/></linearGradient>
+    <linearGradient id="lilac" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6d8ff"/><stop offset=".55" stop-color="#f6d3ec"/><stop offset="1" stop-color="#ffd6e6"/></linearGradient>
+    <radialGradient id="firefly"><stop offset="0" stop-color="#fff2a6" stop-opacity=".9"/><stop offset="1" stop-color="#fff2a6" stop-opacity="0"/></radialGradient>
+    <pattern id="dots" width="64" height="64" patternUnits="userSpaceOnUse"><circle cx="16" cy="16" r="6" fill="#fff" opacity=".55"/><circle cx="48" cy="48" r="6" fill="#fff" opacity=".55"/></pattern>
+    <pattern id="tape" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="18" height="18" fill="#ffc7da"/><rect width="9" height="18" fill="#ffe3ee"/></pattern>
+    <filter id="halo-pink" x="-20%" y="-40%" width="140%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#ff9ec2" flood-opacity=".85"/></filter>
+    <clipPath id="faceclip" clipPathUnits="objectBoundingBox"><ellipse cx=".47" cy=".36" rx=".3333" ry=".25"/></clipPath>
+    <filter id="halo" x="-20%" y="-40%" width="140%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#fff" flood-opacity=".9"/></filter>
+  </defs>
+</svg>
+
+<header class="top">
+  <h1>Photobooth frames</h1>
+  <p>Four booth layouts. The photo boxes sit where the booth expects them. Each PNG is 4 × 6 in at 300 dpi.</p>
+  <p><a class="all" href="luna-photobooth-frames.zip" download>Download all 4 frames (zip)</a></p>
+</header>
+<main class="frames" id="frames"></main>
+
+<script>
+// Photo boxes measured from the booth's originals: [left, top, right, bottom].
+const FRAMES = [
+  { file: "booth-1-big-and-3.png", label: "1 big + 3", w: 2000, h: 1333.33,
+    groups: [[[928, 103, 1931, 778]], [[59, 804, 671, 1243], [693, 804, 1305, 1243], [1326, 804, 1938, 1243]]],
+    titles: [{ x: 466, y: 420, size: 172, sub: 78, date: 40 }], faces: [[466, 158, 116]],
+    moons: [[812, 112, 62]], corners: [[0, 0, 1], [2000, 0, -1]],
+    flies: [[24, 600, 160, -14], [730, 590, 120, 12], [1760, -6, 120, 10]] },
+  { file: "booth-2-two-strips.png", label: "Two strips of 3", w: 1333.33, h: 2000, cut: 666.67,
+    groups: [[[39, 420, 628, 859], [39, 875, 628, 1314], [39, 1331, 628, 1769]], [[709, 420, 1297, 859], [709, 876, 1297, 1314], [709, 1331, 1297, 1769]]],
+    titles: [{ x: 333, y: 292, size: 92, sub: 42, date: 28, dateY: 1820 }, { x: 1000, y: 292, size: 92, sub: 42, date: 28, dateY: 1820 }], bed: .75, faces: [[333, 102, 80], [1000, 102, 80]],
+    moons: [[600, 70, 40], [1267, 70, 40]], corners: [[0, 0, .8], [666.67, 0, .8]],
+    flies: [[560, 150, 90, 12], [1227, 150, 90, 12]] },
+  { file: "booth-3-grid-of-4.png", label: "Grid of 4", w: 1333.33, h: 2000,
+    groups: [[[69, 523, 653, 1181], [670, 523, 1263, 1181], [71, 1201, 654, 1859], [672, 1201, 1265, 1859]]],
+    titles: [{ x: 780, y: 225, size: 150, sub: 64, date: 30, dateY: 452 }], faces: [[180, 258, 116]],
+    moons: [[1220, 96, 64]], corners: [[0, 0, 1.1]],
+    flies: [[20, 404, 110, -12], [1180, 360, 120, 14]] },
+  { file: "booth-4-one-and-4.png", label: "1 big + grid of 4", w: 2000, h: 1333.33, cut: 1000,
+    groups: [[[112, 360, 926, 1237]], [[1071, 365, 1489, 812], [1505, 365, 1923, 812], [1071, 829, 1489, 1275], [1505, 829, 1923, 1275]]],
+    titles: [{ x: 590, y: 150, size: 118, sub: 50, date: 26, dateY: 302 }, { x: 1570, y: 150, size: 118, sub: 50, date: 26, dateY: 302 }], faces: [[128, 172, 95], [1112, 172, 95]],
+    moons: [[930, 62, 44], [1938, 62, 44]], corners: [[0, 0, .85], [1000, 0, .85]],
+    flies: [[0, 960, 110, -12], [884, 262, 76, 10]] }
+];
+
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const COLORS = ["#ff9ec2", "#ffc7da", "#fff7fb", "#d7b8ff", "#f7a3c4", "#ffe9a8"];
+const pick = () => COLORS[Math.floor(rnd() * COLORS.length)];
+
+// Bold daisies spilling in from a top corner. A negative k mirrors it for a right corner.
+const corner = ([x, y, k], dir = Math.sign(k) || 1) => {
+  const s = Math.abs(k), m = (dx) => x + dir * dx * s;
+  return `<use href="#daisy" x="${m(70) - 70 * s}" y="${y - 50 * s}" width="${140 * s}" height="${140 * s}" style="--p:#ffe9a8"/>
+    <use href="#daisy" x="${m(165) - 50 * s}" y="${y + 6 * s}" width="${100 * s}" height="${100 * s}" style="--p:#ffc7da"/>
+    <use href="#daisy" x="${m(28) - 45 * s}" y="${y + 92 * s}" width="${90 * s}" height="${90 * s}" style="--p:#d7b8ff"/>
+    <use href="#daisy" x="${m(130) - 26 * s}" y="${y + 110 * s}" width="${52 * s}" height="${52 * s}"/>`;
+};
+
+const tulipHead = (x, y, size, c) => `<path transform="translate(${x} ${y}) scale(${size / 34})" d="M-12 -2C-12 -24 -5 -32 0 -32 5 -32 12 -24 12 -2 12 8 -12 8 -12 -2Z" fill="${c}"/>`;
+const daisyAt = (x, y, size, c) => `<use href="#daisy" x="${x - size / 2}" y="${y - size / 2}" width="${size}" height="${size}" style="--p:${c}"/>`;
+
+// The garden along the bottom edge: a tall back row, then a dense front row.
+const stem = (x, top, h, size, c, green) => {
+  const lean = (rnd() - .5) * 16, hx = x + lean / 2;
+  return `<path d="M${x} ${h}Q${x + lean} ${(h + top) / 2} ${hx} ${top}" stroke="${green}" stroke-width="${size / 11}" fill="none"/>` +
+    (rnd() < .4 ? tulipHead(hx, top, size, c) : daisyAt(hx, top, size, c));
+};
+const bed = (w, h, k = 1, grass = "#a8d5b5", green = "#79b98d") => {
+  let back = "", front = "";
+  for (let x = 10; x < w; x += 28 + rnd() * 16) back += stem(x, h - (80 + rnd() * 80) * k, h, 40 + rnd() * 16, pick(), green);
+  for (let x = 4; x < w; x += 18 + rnd() * 12) front += stem(x, h - (34 + rnd() * 40) * k, h, 28 + rnd() * 10, pick(), green);
+  return back + `<path d="M0 ${h - 40 * k}C${w * .2} ${h - 66 * k} ${w * .4} ${h - 34 * k} ${w * .55} ${h - 50 * k} ${w * .75} ${h - 68 * k} ${w * .9} ${h - 40 * k} ${w} ${h - 54 * k}V${h}H0Z" fill="${grass}"/>` + front;
+};
+
+const sparkles = (w, h, n, reach = .8) => Array.from({ length: n }, () => {
+  const r = 8 + rnd() * 12;
+  return `<use href="#spark" x="${rnd() * w - r}" y="${rnd() * h * reach - r}" width="${2 * r}" height="${2 * r}"/>`;
+}).join("");
+
+// Luna's portrait in a ringed circle, with two daisies tucked on the ring. Change FACE to swap the photo.
+const FACE = "../images/photo-1.jpg";
+const face = ([cx, cy, r], ring = "#fff") => `<circle cx="${cx}" cy="${cy}" r="${r + 11}" fill="${ring}" filter="url(#lift)"/>
+  <image href="${FACE}" x="${cx - r * 1.41}" y="${cy - r * 1.44}" width="${3 * r}" height="${4 * r}" clip-path="url(#faceclip)"/>
+  ${daisyAt(cx - r * .8, cy + r * .74, r * .44, "#ffc7da")}${daisyAt(cx + r * .84, cy - r * .68, r * .34, "#ffe9a8")}`;
+
+const moon = ([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r * 2.6}" fill="url(#glow)"/><circle cx="${x}" cy="${y}" r="${r}" fill="url(#moon)"/>`;
+const fly = ([x, y, s, r], w1 = "#ffc7da", w2 = "#d7b8ff") => `<use href="#fly" x="${x}" y="${y}" width="${s}" height="${s * .8}" transform="rotate(${r} ${x + s / 2} ${y + s * .4})" style="--w1:${w1};--w2:${w2}"/>`;
+const cutLine = (f, c = "#c98fb2") => f.cut ? `<path d="M${f.cut} 0V${f.h}" stroke="${c}" stroke-width="2" stroke-dasharray="6 7"/>` : "";
+
+// Title block. Each look passes its own colours and finish.
+const title = ({ x, y, size, sub, date, dateY }, st = {}) => {
+  const { main = "#8e2f6a", stroke = "#fff", halo = "halo", subFill = "#74335f", pill = "#fff", pillText = "#4e1c42", ribbon = false, posies = false } = st;
+  const dy = dateY ?? y + sub * 1.9 + date * 1.6, sy = y + sub * 1.55, rw = sub * 8.8, rh = sub * 1.55, ry = sy - sub * 1.1;
+  return `${ribbon ? `<path d="M${x - rw / 2 - sub * .7} ${ry}H${x + rw / 2 + sub * .7}L${x + rw / 2} ${ry + rh / 2}L${x + rw / 2 + sub * .7} ${ry + rh}H${x - rw / 2 - sub * .7}L${x - rw / 2} ${ry + rh / 2}Z" fill="${ribbon}" filter="url(#lift)"/>` : ""}
+  <g ${halo ? `filter="url(#${halo})"` : ""} text-anchor="middle">
+    <text x="${x}" y="${y}" font-family="Satisfy" font-size="${size}" fill="${main}" ${stroke ? `stroke="${stroke}" stroke-width="${size * .06}" paint-order="stroke" stroke-linejoin="round"` : ""}>Bella Luna's</text>
+    <text x="${x}" y="${sy}" font-family="Quicksand" font-weight="700" font-size="${sub}" letter-spacing="${sub * .12}" fill="${subFill}">7<tspan font-size="60%" baseline-shift="70%">TH</tspan> BIRTHDAY</text>
+  </g>
+  ${posies
+    ? daisyAt(x - date * 8.2, dy - date * .35, date * 1.5, "#ffc7da") + daisyAt(x + date * 8.2, dy - date * .35, date * 1.5, "#d7b8ff") +
+      `<text x="${x}" y="${dy}" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="${date * 1.1}" letter-spacing="${date * .08}" fill="${pillText}">November 14, 2026</text>`
+    : `<rect x="${x - date * 6.75}" y="${dy - date * 1.35}" width="${date * 13.5}" height="${date * 1.95}" rx="${date}" fill="${pill}" opacity=".95" filter="url(#lift)"/>
+  <text x="${x}" y="${dy}" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="${date}" letter-spacing="${date * .06}" fill="${pillText}">November 14, 2026</text>`}`;
+};
+
+// A mat behind each group of boxes; the boxes stay pure white for the photos.
+const bounds = (boxes, p) => [Math.min(...boxes.map((b) => b[0])) - p, Math.min(...boxes.map((b) => b[1])) - p, Math.max(...boxes.map((b) => b[2])) + p, Math.max(...boxes.map((b) => b[3])) + p];
+const panel = (boxes, { rx = 14, line = "#f3c1da", ring = "" } = {}) => {
+  const [x0, y0, x1, y1] = bounds(boxes, 10);
+  return (ring ? `<rect x="${x0 - 7}" y="${y0 - 7}" width="${x1 - x0 + 14}" height="${y1 - y0 + 14}" rx="${rx + 6}" fill="none" stroke="${ring}" stroke-width="2.5"/>` : "") +
+    `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" rx="${rx}" fill="#fff" filter="url(#lift)"/>` +
+    boxes.map(([a, b, c, d]) => `<rect x="${a}" y="${b}" width="${c - a}" height="${d - b}" fill="#fff" stroke="${line}" stroke-width="2"/>`).join("");
+};
+
+// Moonlit: stars and fireflies over a dusk garden.
+const stars = (w, h, n) => Array.from({ length: n }, () => `<circle cx="${rnd() * w}" cy="${rnd() * h * .7}" r="${1.4 + rnd() * 2.4}" fill="#fff" opacity="${.45 + rnd() * .55}"/>`).join("");
+const fireflies = (w, h, n) => Array.from({ length: n }, () => {
+  const x = rnd() * w, y = h * (.35 + rnd() * .6);
+  return `<circle cx="${x}" cy="${y}" r="16" fill="url(#firefly)"/><circle cx="${x}" cy="${y}" r="3.6" fill="#fff6c8"/>`;
+}).join("");
+
+// Flower frame: a garland of daisies, tulips and leaves running round every edge.
+const garland = (w, h) => {
+  let s = "";
+  const spot = (x, y) => {
+    const a = rnd() * 360;
+    s += `<ellipse cx="${x}" cy="${y}" rx="11" ry="26" fill="#8fcaa1" transform="rotate(${a} ${x} ${y}) translate(0 -22)"/><ellipse cx="${x}" cy="${y}" rx="9" ry="22" fill="#a8d5b5" transform="rotate(${a + 140} ${x} ${y}) translate(0 -20)"/>`;
+    s += rnd() < .3 ? tulipHead(x, y + 14, 42 + rnd() * 14, pick()) : daisyAt(x, y, 46 + rnd() * 26, pick());
+  };
+  for (let x = 10; x < w; x += 40 + rnd() * 18) { spot(x, 18 + rnd() * 26); spot(x + 20, h - 18 - rnd() * 26); }
+  for (let y = 60; y < h - 40; y += 40 + rnd() * 18) { spot(18 + rnd() * 24, y); spot(w - 18 - rnd() * 24, y + 20); }
+  [[0, 0], [w, 0], [0, h], [w, h]].forEach(([cx, cy]) => { for (let i = 0; i < 4; i++) s += daisyAt(cx + (cx ? -1 : 1) * (30 + rnd() * 90), cy + (cy ? -1 : 1) * (30 + rnd() * 90), 90 + rnd() * 50, pick()); });
+  return s;
+};
+
+// Butterfly flight: polka-dot sky, cloud edge, washi tape and dotted flight paths.
+const clouds = (w, h, k = 1) => {
+  let back = "", front = "";
+  for (let x = -20; x < w + 60; x += 70 + rnd() * 30) back += `<circle cx="${x}" cy="${h - 10 + rnd() * 20}" r="${(70 + rnd() * 30) * k}" fill="#fbe1ef"/>`;
+  for (let x = 10; x < w + 60; x += 60 + rnd() * 30) front += `<circle cx="${x}" cy="${h + 26 + rnd() * 16}" r="${(56 + rnd() * 26) * k}" fill="#fff"/>`;
+  return back + front;
+};
+const tape = (x, y, a) => `<rect x="${x - 64}" y="${y - 18}" width="128" height="36" fill="url(#tape)" opacity=".9" transform="rotate(${a} ${x} ${y})"/>`;
+const trail = ([x, y, s]) => `<path d="M${x - s * 1.9} ${y + s * 1.4}C${x - s * 1.2} ${y + s * 1.9} ${x - s * .6} ${y + s * .2} ${x + s * .1} ${y + s * .55}" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 14" opacity=".95"/>`;
+
+const LOOKS = {
+  garden: { name: "Garden Dawn", dir: "garden-dawn/", note: "Pink twilight sky, Luna's portrait and a full flower bed.",
+    frame: (f) => `<rect width="${f.w}" height="${f.h}" fill="url(#sky)"/>${f.moons.map(moon).join("")}${sparkles(f.w, f.h, Math.round(f.w * f.h / 90000))}
+      ${f.corners.map((c) => corner(c)).join("")}${cutLine(f)}${f.groups.map((g) => panel(g)).join("")}${f.titles.map((t) => title(t)).join("")}${f.faces.map((v) => face(v)).join("")}
+      ${f.flies.map((v) => fly(v)).join("")}${bed(f.w, f.h, f.bed)}` },
+  moonlit: { name: "Moonlit Garden", dir: "moonlit/", note: "Dusk sky, a big glowing moon, stars and fireflies. The party starts at 5 PM, so this is its sky.",
+    frame: (f) => `<rect width="${f.w}" height="${f.h}" fill="url(#night)"/>${stars(f.w, f.h, Math.round(f.w * f.h / 9000))}
+      ${f.moons.map(([x, y, r]) => moon([x, y, r * 1.5])).join("")}${sparkles(f.w, f.h, Math.round(f.w * f.h / 120000), .6)}
+      ${cutLine(f, "#d9b3e6")}${fireflies(f.w, f.h, Math.round(f.w * f.h / 100000))}
+      ${f.groups.map((g) => panel(g, { line: "#ead9f5", ring: "#ffe9a8" })).join("")}
+      ${f.titles.map((t) => title(t, { main: "#fff", stroke: "", halo: "halo-pink", subFill: "#ffe9a8", pill: "#ffe9a8" })).join("")}${f.faces.map((v) => face(v, "#ffe9a8")).join("")}
+      ${f.flies.map((v) => fly(v, "#ffe9a8", "#ffc7da")).join("")}${bed(f.w, f.h, f.bed, "#5f9c82", "#4f8a6f")}` },
+  frame: { name: "Flower Frame", dir: "flower-frame/", note: "A garland of daisies and tulips around every edge, on soft blush paper.",
+    frame: (f) => `<rect width="${f.w}" height="${f.h}" fill="url(#blush)"/>${cutLine(f, "#e7a1c4")}${garland(f.w, f.h)}
+      ${f.groups.map((g) => panel(g, { rx: 6, ring: "#e7a1c4" })).join("")}
+      ${f.titles.map((t) => title(t, { stroke: "", halo: "", subFill: "#c2588f", pillText: "#8e2f6a", posies: true })).join("")}${f.faces.map((v) => face(v)).join("")}
+      ${f.flies.slice(0, 1).map((v) => fly(v)).join("")}` },
+  flight: { name: "Butterfly Flight", dir: "butterfly-flight/", note: "Polka-dot lilac sky, butterflies on dotted flight paths, washi tape on the photos and a cloud edge.",
+    frame: (f) => `<rect width="${f.w}" height="${f.h}" fill="url(#lilac)"/><rect width="${f.w}" height="${f.h}" fill="url(#dots)"/>${cutLine(f, "#b48bd6")}
+      ${f.groups.map((g) => panel(g, { rx: 20, line: "#ead9f5" })).join("")}
+      ${f.groups.map((g) => { const [x0, y0, x1] = bounds(g, 10); return tape(x0 + 20, y0 + 6, -32) + tape(x1 - 20, y0 + 6, 32); }).join("")}
+      ${f.titles.map((t) => title(t, { subFill: "#fff", halo: "", ribbon: "#8e2f6a" })).join("")}${f.faces.map((v) => face(v)).join("")}
+      ${f.flies.map((v) => { const s = [v[0], v[1], v[2] * 1.15, v[3]]; return trail(s) + fly(s, "#d7b8ff", "#ff9ec2"); }).join("")}
+      ${clouds(f.w, f.h, f.bed)}` }
+};
+
+// Only the chosen look is published.
+for (const k of ["moonlit", "frame", "flight"]) delete LOOKS[k];
+
+document.getElementById("frames").innerHTML = Object.entries(LOOKS).map(([key, look]) => `
+  <section class="look" id="${key}">
+    <h2>${look.name}</h2><p>${look.note}</p>
+    <div class="row">${FRAMES.map((f, i) => { seed = 7 + i; return `
+      <figure class="${f.w > f.h ? "wide" : "tall"}" data-n="${key}-${i + 1}">
+        <svg viewBox="0 0 ${f.w} ${f.h}" preserveAspectRatio="none" role="img" aria-label="${look.name} photobooth frame ${i + 1}: ${f.label}">${look.frame(f)}</svg>
+        <figcaption>${i + 1}. ${f.label} · <a href="${look.dir}${f.file}" download>Download PNG</a></figcaption>
+      </figure>`; }).join("")}</div>
+  </section>`).join("");
+
+// #moonlit-2 shows one frame full size; a bare #2 still means the first look.
+const n = location.hash.slice(1).replace(/^(\d)$/, "garden-$1");
+if (n) { document.body.classList.add("one"); document.querySelector(`[data-n="${n}"]`).classList.add("show"); }
+</script>
+</body>
+</html>
