@@ -24,7 +24,7 @@ p.lead { font-size: 17px; font-weight: 600; line-height: 1.5; margin: 0 0 26px; 
 .btn.alt { background: #fff; color: var(--plum); box-shadow: 0 0 0 2px #e8c3d8 inset; }
 .btn.off { background: #f1e3ec; color: #a98a9c; pointer-events: none; box-shadow: none; }
 .btn small { display: block; font-size: 13px; font-weight: 600; opacity: .85; margin-top: 2px; }
-.steps { text-align: left; background: rgba(255,255,255,.7); border-radius: 20px; padding: 18px 20px; margin: 10px 0 26px;
+.steps-unused { text-align: left; background: rgba(255,255,255,.7); border-radius: 20px; padding: 18px 20px; margin: 10px 0 26px;
   box-shadow: 0 0 0 2px #f0d5e4; }
 .steps div { display: flex; gap: 12px; align-items: center; font-weight: 600; font-size: 15.5px; padding: 6px 0; }
 .steps b { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--plum); color: #fff; display: grid; place-items: center; font-size: 14px; }
@@ -43,25 +43,20 @@ const LINKS = {
   guests: "",                                         // NAS view link (see what guests shared)
   official: "https://photos.app.goo.gl/vG4q5iqJgJ1rbV5x8" // photographer + photo booth album
 };
-const memories = location.pathname.includes("/memories");
 const btn = (url, cls, label, sub) => url
   ? `<a class="btn ${cls}" href="${url}" target="_blank" rel="noopener">${label}<small>${sub}</small></a>`
   : `<span class="btn off">${label}<small>coming soon</small></span>`;
 const daisy = (x, y, r, c) => `<svg class="deco" style="${x}:${-r / 2}px;top:${y}px" width="${r * 2}" height="${r * 2}" viewBox="-50 -50 100 100">${
   [...Array(8)].map((_, k) => `<ellipse rx="13" ry="30" cy="-24" fill="${c}" transform="rotate(${k * 45})"/>`).join("")}<circle r="14" fill="#f5c04e"/></svg>`;
-document.title = memories ? "Bella Luna's Memories" : "Share Your Photos · Bella Luna";
+document.title = "Bella Luna's Memories";
 document.getElementById("app").innerHTML = daisy("left", 10, 46, "#fff") + daisy("right", 30, 40, "#ffd6e7") + `
   <div class="photo"></div>
   <div class="k">Bella Luna turns 7</div>
-  <h1>${memories ? "See Our Memories" : "Share Your Photos"}</h1>
-  ${memories
-    ? `<p class="lead">Thank you for celebrating with us! Here are the photos from Luna's twilight garden party.</p>
-       ${btn(LINKS.official, "main", "Official photos", "photographer and photo booth")}
-       ${btn(LINKS.guests, "alt", "Photos from our guests", "everything you shared")}`
-    : `<p class="lead">Took a photo of Luna tonight? Send it to us! No app and no login needed.</p>
-       <div class="steps"><div><b>1</b>Tap Upload your photos</div><div><b>2</b>Pick your favorite photos and videos</div><div><b>3</b>Wait for the done message, that's it!</div></div>
-       ${btn(LINKS.upload, "main", "Upload your photos", "straight to Luna's family album")}
-       ${btn(LINKS.guests, "alt", "See guest photos", "what everyone has shared")}`}
+  <h1>Share &amp; See Our Memories</h1>
+  <p class="lead">Took a photo of Luna tonight? Send it to us, no app and no login needed. Then come back to see everyone's photos.</p>
+  ${btn(LINKS.upload, "main", "Upload your photos", "pick your favorite photos and videos")}
+  ${btn(LINKS.official, "alt", "Official photos", "photographer and photo booth")}
+  ${btn(LINKS.guests, "alt", "Photos from our guests", "everything you shared")}
   <div class="foot">Thank you for making her day!</div>
   <div class="date">Nov 14, 2026 · Sundays Cafe, Marikina</div>
   <p><a class="home" href="../">Back to the invitation</a></p>`;
