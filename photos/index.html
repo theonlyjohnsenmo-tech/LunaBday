@@ -154,7 +154,6 @@ document.querySelectorAll("[data-link]").forEach((a) => {
 // Photo booth prints: img/full and img/thumb, numbered in the order they were taken. META comes from photos.js.
 const PHOTOS = window.META.map((m) => ({ n: m.f.slice(0, 2), t: m.t }));
 const full = (p) => `img/full/${p.n}.jpg`, thumb = (p) => `img/thumb/${p.n}.jpg`;
-const clock = (t) => { const h = +t.slice(0, 2); return `${h > 12 ? h - 12 : h}:${t.slice(2)} ${h >= 12 ? "PM" : "AM"}`; };
 document.getElementById("boothN").textContent = PHOTOS.length;
 
 /* Stories */
@@ -165,7 +164,7 @@ function draw() {
   const p = PHOTOS[i];
   img.src = full(p);
   document.getElementById("count").textContent = `${i + 1} / ${PHOTOS.length}`;
-  document.getElementById("cap").innerHTML = `${clock(p.t)}<span>Tap the sides or swipe · tap the photo to open it</span>`;
+  document.getElementById("cap").innerHTML = `<span>Tap the sides or swipe · tap the photo to open it</span>`;
   const start = Math.max(0, Math.min(i - 10, PHOTOS.length - 20));
   document.getElementById("bars").innerHTML = Array.from({ length: 20 }, (_, k) => { const j = start + k; return `<i class="${j < i ? "done" : j === i ? "now" : ""}"></i>`; }).join("");
   strip.querySelectorAll("button").forEach((b, j) => b.classList.toggle("on", j === i));
@@ -203,7 +202,7 @@ function drawLb() {
   const p = PHOTOS[li];
   document.getElementById("lbImg").src = full(p);
   document.getElementById("lbN").textContent = `${li + 1} / ${PHOTOS.length}`;
-  document.getElementById("lbC").textContent = `${clock(p.t)} · Bella Luna's 7th Birthday`;
+  document.getElementById("lbC").textContent = "Bella Luna's 7th Birthday";
   const dl = document.getElementById("lbDl"); dl.href = full(p); dl.download = `bella-luna-7th-${p.n}.jpg`;
 }
 const stepLb = (d) => { li = (li + d + PHOTOS.length) % PHOTOS.length; drawLb(); };
