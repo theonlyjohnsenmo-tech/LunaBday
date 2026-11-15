@@ -1,7 +1,7 @@
 // Guest uploads straight from this page into a Google Drive folder, through a small
 // Google Apps Script (guest-upload-script/Code.gs). Paste its Web app URL below.
 // While it is "", the Upload and Guest photos buttons keep opening the NAS pages.
-const UPLOAD_API = "";
+const UPLOAD_API = "https://script.google.com/macros/s/AKfycbyipgHLcWhnCGRCOA61YKqQtdNufr-Xepg3SBdacPSKsb5HkUlSrd3C0t2bMO7OzeNn/exec";
 
 (() => {
   if (!UPLOAD_API) return;
