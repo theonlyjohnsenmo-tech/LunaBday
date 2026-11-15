@@ -3,63 +3,228 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bella Luna's Photos</title>
+<meta name="robots" content="noindex">
+<title>Bella Luna's Memories</title>
 <meta name="description" content="Share and see the photos from Bella Luna's 7th birthday.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Satisfy&display=swap" rel="stylesheet">
 <style>
-:root { --plum: #8e2f6a; --ink: #4e1c42; --rose: #c98fb2; --soft: #a0577f; --blush: #fbeef5; }
+:root { --plum: #8e2f6a; --ink: #4e1c42; --soft: #a0577f; --rose: #e8c3d8; --blush: #fbeef5; }
 * { box-sizing: border-box; }
-body { margin: 0; min-height: 100vh; font-family: Quicksand, sans-serif; color: var(--ink);
-  background: radial-gradient(ellipse at 50% 0%, #f3e4ff 0%, var(--blush) 50%, #ffe3ee 100%); }
-main { max-width: 480px; margin: 0 auto; padding: 40px 20px 48px; text-align: center; position: relative; }
-.photo { width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 14px; border: 6px solid #fff;
-  box-shadow: 0 0 0 3px #e8c3d8; background: url("../images/photo-1.jpg") center 22% / cover; }
-.k { font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--rose); }
-h1 { font-family: Satisfy, cursive; font-weight: 400; font-size: 54px; line-height: 1.05; color: var(--plum); margin: 6px 0 10px; }
-p.lead { font-size: 17px; font-weight: 600; line-height: 1.5; margin: 0 0 26px; }
-.btn { display: block; width: 100%; padding: 18px 20px; margin: 0 0 14px; border-radius: 999px; font: 700 18px Quicksand, sans-serif;
-  text-decoration: none; border: 0; cursor: pointer; }
+html, body { margin: 0; }
+body { font-family: Quicksand, system-ui, sans-serif; color: var(--ink); background: radial-gradient(ellipse at 30% 0%, #f3e4ff, var(--blush) 55%, #ffe3ee) fixed; -webkit-tap-highlight-color: transparent; }
+img { display: block; }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--plum); outline-offset: 3px; }
+.btn { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding: 15px 20px; border-radius: 999px; font-weight: 700; font-size: 17px; text-decoration: none; border: 0; background: #fff; color: var(--plum); box-shadow: inset 0 0 0 2px var(--rose); }
+.btn small { font-size: 13px; font-weight: 600; opacity: .85; margin-top: 1px; }
 .btn.main { background: var(--plum); color: #fff; box-shadow: 0 8px 20px rgba(142,47,106,.28); }
-.btn.alt { background: #fff; color: var(--plum); box-shadow: 0 0 0 2px #e8c3d8 inset; }
-.btn.off { background: #f1e3ec; color: #a98a9c; pointer-events: none; box-shadow: none; }
-.btn small { display: block; font-size: 13px; font-weight: 600; opacity: .85; margin-top: 2px; }
-.steps-unused { text-align: left; background: rgba(255,255,255,.7); border-radius: 20px; padding: 18px 20px; margin: 10px 0 26px;
-  box-shadow: 0 0 0 2px #f0d5e4; }
-.steps div { display: flex; gap: 12px; align-items: center; font-weight: 600; font-size: 15.5px; padding: 6px 0; }
-.steps b { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--plum); color: #fff; display: grid; place-items: center; font-size: 14px; }
-.foot { font-family: Satisfy, cursive; font-size: 26px; color: var(--soft); margin-top: 26px; }
+.btn.off { background: #f1e3ec; color: #7d5a6f; box-shadow: none; pointer-events: none; }
+
+/* Layout: stories on the left, the share panel on the right. Stacked on phones. */
+.page { display: grid; grid-template-columns: minmax(0, 1fr) 440px; min-height: 100vh; min-height: 100dvh; }
+@media (max-width: 900px) { .page { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- Stories ---------- */
+.stories { position: sticky; top: 0; height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); }
+.stories > * { min-width: 0; }
+@media (max-width: 900px) { .stories { position: relative; height: 86vh; height: 86dvh; } }
+.top { display: flex; align-items: center; gap: 10px; padding: 16px 20px 10px; }
+.top b { font-family: Satisfy, cursive; font-weight: 400; font-size: 28px; color: var(--plum); }
+.count { margin-left: auto; font-weight: 700; font-size: 13px; color: var(--soft); background: #fff; padding: 6px 12px; border-radius: 99px; }
+.up { display: none; padding: 7px 14px; border-radius: 99px; background: var(--plum); color: #fff; font-weight: 700; font-size: 13px; text-decoration: none; margin-left: auto; }
+@media (max-width: 900px) { .up { display: inline-block; } .up + .count { margin-left: 0; } }
+.play { border: 0; width: 34px; height: 34px; border-radius: 50%; background: #fff; color: var(--plum); font-size: 13px; }
+.bars { display: flex; gap: 3px; padding: 0 20px; }
+.bars i { flex: 1; height: 3px; border-radius: 3px; background: #ecd0e0; overflow: hidden; }
+.bars i.done { background: var(--plum); }
+.bars i.now::after { content: ""; display: block; height: 100%; width: 0; background: var(--plum); animation: fill 4.5s linear forwards; }
+.paused .bars i.now::after { animation: none; width: 0; }
+@keyframes fill { to { width: 100%; } }
+.main { position: relative; min-height: 0; touch-action: pan-y; }
+.main img { position: absolute; inset: 14px 20px; margin: auto; max-width: calc(100% - 40px); max-height: calc(100% - 28px); width: auto; height: auto; border-radius: 20px; box-shadow: 0 24px 50px -20px rgba(78,28,66,.55); animation: fadein .35s ease; cursor: zoom-in; }
+@keyframes fadein { from { opacity: 0; transform: scale(.97); } }
+.tap { position: absolute; top: 0; bottom: 0; width: 30%; border: 0; background: none; }
+.tap.l { left: 0; } .tap.r { right: 0; }
+.cap { text-align: center; font-weight: 700; color: var(--plum); margin: 0; }
+.cap span { display: block; font-weight: 600; font-size: 13px; color: var(--soft); }
+.strip { display: flex; gap: 8px; padding: 12px 20px 18px; overflow-x: auto; scrollbar-width: none; }
+.strip::-webkit-scrollbar { display: none; }
+.strip button { flex: none; width: 60px; height: 60px; padding: 0; border: 0; border-radius: 12px; overflow: hidden; opacity: .6; }
+.strip button.on { opacity: 1; outline: 3px solid var(--plum); outline-offset: 2px; }
+.strip img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Share panel ---------- */
+.panel { position: relative; padding: 40px 34px 40px; text-align: center; background: rgba(255,255,255,.55); border-left: 1px solid #f0d5e4; overflow: hidden; }
+@media (max-width: 900px) { .panel { border-left: 0; border-top: 1px solid #f0d5e4; padding: 34px 20px 44px; } }
+.panel .inner { position: relative; max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.photo { width: 132px; height: 132px; border-radius: 50%; margin: 0 auto 4px; border: 6px solid #fff; box-shadow: 0 0 0 3px var(--rose); background: url("../images/photo-1.jpg") center 22% / cover; }
+.k { font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--soft); }
+h1 { font-family: Satisfy, cursive; font-weight: 400; font-size: 50px; line-height: 1.05; color: var(--plum); margin: 0; }
+.lead { font-size: 16.5px; font-weight: 600; line-height: 1.5; margin: 0 0 6px; }
+.label { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--soft); margin: 10px 0 -2px; }
+.foot { font-family: Satisfy, cursive; font-size: 26px; color: var(--soft); margin-top: 14px; }
 .date { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--soft); }
-.deco { position: absolute; pointer-events: none; }
 a.home { color: var(--soft); font-weight: 700; font-size: 14px; }
+.deco { position: absolute; pointer-events: none; }
+
+/* ---------- Grid of all photos ---------- */
+.grid { position: fixed; inset: 0; z-index: 30; overflow-y: auto; background: var(--blush); padding: 16px 16px 40px; display: none; }
+.grid.on { display: block; }
+.grid header { display: flex; align-items: center; gap: 12px; max-width: 1200px; margin: 0 auto 14px; }
+.grid header b { font-family: Satisfy, cursive; font-weight: 400; font-size: 30px; color: var(--plum); margin-right: auto; }
+.grid header .btn { width: auto; padding: 10px 18px; font-size: 15px; }
+.grid .g { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; max-width: 1200px; margin: 0 auto; }
+.grid .g button { padding: 0; border: 0; aspect-ratio: 1; border-radius: 12px; overflow: hidden; }
+.grid .g img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Photo viewer ---------- */
+.lb { position: fixed; inset: 0; z-index: 60; display: none; grid-template-rows: auto minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); background: rgba(20,6,19,.96); color: #fff; }
+.lb.on { display: grid; }
+.lt { display: flex; align-items: center; gap: 8px; padding: 12px 14px; }
+.lt span { margin-right: auto; font-weight: 700; font-size: 14px; color: #f3c6dd; }
+.ib { width: 42px; height: 42px; border-radius: 50%; border: 0; background: rgba(255,255,255,.14); color: #fff; font-size: 20px; display: grid; place-items: center; text-decoration: none; }
+.lm { position: relative; min-height: 0; touch-action: pan-y; }
+.lm img { position: absolute; inset: 6px 12px; margin: auto; max-width: calc(100% - 24px); max-height: calc(100% - 12px); width: auto; height: auto; border-radius: 8px; animation: fadein .25s ease; }
+.nav { position: absolute; top: 50%; transform: translateY(-50%); }
+.nav.p { left: 12px; } .nav.n { right: 12px; }
+.lc { text-align: center; padding: 10px 0 16px; font-weight: 600; font-size: 13px; color: #f0cfe0; }
+@media (max-width: 600px) { .nav { display: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::after { animation: none !important; } }
 </style>
 </head>
 <body>
-<main id="app"></main>
+<div class="page">
+  <section class="stories" id="stories" aria-label="Party photos">
+    <div>
+      <div class="top"><b>Our Memories</b><a class="up" data-link="upload" target="_blank" rel="noopener">+ Upload</a><span class="count" id="count"></span><button class="play" id="play" type="button" aria-label="Pause slideshow">❚❚</button></div>
+      <div class="bars" id="bars"></div>
+    </div>
+    <div class="main" id="main"><img id="img" src="img/full/01.jpg" alt="Photo booth photo"><button class="tap l" type="button" aria-label="Previous photo"></button><button class="tap r" type="button" aria-label="Next photo"></button></div>
+    <div>
+      <p class="cap" id="cap"></p>
+      <div class="strip" id="strip"></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <svg class="deco" style="left:-20px;top:-14px" width="96" height="96" viewBox="-50 -50 100 100"><g fill="#fff"><ellipse rx="13" ry="30" cy="-24"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(45)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(90)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(135)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(180)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(225)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(270)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(315)"/></g><circle r="14" fill="#f5c04e"/></svg>
+    <svg class="deco" style="right:-16px;top:14px" width="80" height="80" viewBox="-50 -50 100 100"><g fill="#ffd6e7"><ellipse rx="13" ry="30" cy="-24"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(45)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(90)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(135)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(180)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(225)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(270)"/><ellipse rx="13" ry="30" cy="-24" transform="rotate(315)"/></g><circle r="14" fill="#f5c04e"/></svg>
+    <div class="inner">
+      <div class="photo"></div>
+      <div class="k">Bella Luna turns 7</div>
+      <h1>Share &amp; See Our Memories</h1>
+      <p class="lead">Took a photo of Luna? Send it to us, no app and no login needed. Then come back to see everyone's photos.</p>
+      <a class="btn main" data-link="upload" target="_blank" rel="noopener">Upload your photos<small>pick your favorite photos and videos</small></a>
+      <p class="label">See the photos</p>
+      <button class="btn" id="boothBtn" type="button">Photo booth<small>all <span id="boothN"></span> photo booth prints</small></button>
+      <a class="btn" data-link="photographer" target="_blank" rel="noopener">Official photographer<small>the photographer's album</small></a>
+      <a class="btn" data-link="guests" target="_blank" rel="noopener">Photos from our guests<small>everything you shared</small></a>
+      <div class="foot">Thank you for making her day!</div>
+      <div class="date">Nov 14, 2026 · Sundays Cafe, Marikina</div>
+      <p><a class="home" href="../">Back to the invitation</a></p>
+    </div>
+  </aside>
+</div>
+
+<div class="grid" id="grid" role="dialog" aria-modal="true" aria-label="All photo booth photos">
+  <header><b>Photo booth</b><button class="btn" id="gridX" type="button">Back</button></header>
+  <div class="g" id="gridG"></div>
+</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="lt"><span id="lbN"></span><a class="ib" id="lbDl" download aria-label="Download photo">⤓</a><button class="ib" id="lbX" type="button" aria-label="Close">✕</button></div>
+  <div class="lm" id="lm"><img id="lbImg" src="img/thumb/01.jpg" alt="Photo booth photo"><button class="ib nav p" id="lbP" type="button" aria-label="Previous">‹</button><button class="ib nav n" id="lbNx" type="button" aria-label="Next">›</button></div>
+  <div class="lc" id="lbC"></div>
+</div>
+
+<script src="photos.js"></script>
 <script>
 // Links. Leave a link "" until it is ready: its button shows "coming soon".
 const LINKS = {
-  upload: "https://ug.link/dh2300-f6d2/photo/share/?id=0&pagetype=invite&uuid=a6fb4c54-8cc3-43e4-b00d-d33e7ad43b68",                                         // NAS upload link (guests add photos, no login)
-  guests: "https://ug.link/dh2300-f6d2/photo/share/?id=1&pagetype=share&uuid=edbe2fd9-b9b3-443b-9b61-9fd77f3ef21d",                                         // NAS view link (see what guests shared)
-  official: "https://photos.app.goo.gl/vG4q5iqJgJ1rbV5x8" // photographer + photo booth album
+  upload: "https://ug.link/dh2300-f6d2/photo/share/?id=0&pagetype=invite&uuid=a6fb4c54-8cc3-43e4-b00d-d33e7ad43b68",       // NAS upload link (no login)
+  guests: "https://ug.link/dh2300-f6d2/photo/share/?id=1&pagetype=share&uuid=edbe2fd9-b9b3-443b-9b61-9fd77f3ef21d",        // NAS view link
+  photographer: "https://photos.app.goo.gl/vG4q5iqJgJ1rbV5x8"                                                               // official photographer album
 };
-const btn = (url, cls, label, sub) => url
-  ? `<a class="btn ${cls}" href="${url}" target="_blank" rel="noopener">${label}<small>${sub}</small></a>`
-  : `<span class="btn off">${label}<small>coming soon</small></span>`;
-const daisy = (x, y, r, c) => `<svg class="deco" style="${x}:${-r / 2}px;top:${y}px" width="${r * 2}" height="${r * 2}" viewBox="-50 -50 100 100">${
-  [...Array(8)].map((_, k) => `<ellipse rx="13" ry="30" cy="-24" fill="${c}" transform="rotate(${k * 45})"/>`).join("")}<circle r="14" fill="#f5c04e"/></svg>`;
-document.title = "Bella Luna's Memories";
-document.getElementById("app").innerHTML = daisy("left", 10, 46, "#fff") + daisy("right", 30, 40, "#ffd6e7") + `
-  <div class="photo"></div>
-  <div class="k">Bella Luna turns 7</div>
-  <h1>Share &amp; See Our Memories</h1>
-  <p class="lead">Took a photo of Luna tonight? Send it to us, no app and no login needed. Then come back to see everyone's photos.</p>
-  ${btn(LINKS.upload, "main", "Upload your photos", "pick your favorite photos and videos")}
-  ${btn(LINKS.official, "alt", "Official photos", "photographer and photo booth")}
-  ${btn(LINKS.guests, "alt", "Photos from our guests", "everything you shared")}
-  <div class="foot">Thank you for making her day!</div>
-  <div class="date">Nov 14, 2026 · Sundays Cafe, Marikina</div>
-  <p><a class="home" href="../">Back to the invitation</a></p>`;
+document.querySelectorAll("[data-link]").forEach((a) => {
+  if (LINKS[a.dataset.link]) a.href = LINKS[a.dataset.link];
+  else { a.classList.add("off"); const s = a.querySelector("small"); if (s) s.textContent = "coming soon"; }
+});
+
+// Photo booth prints: img/full and img/thumb, numbered in the order they were taken. META comes from photos.js.
+const PHOTOS = window.META.map((m) => ({ n: m.f.slice(0, 2), t: m.t }));
+const full = (p) => `img/full/${p.n}.jpg`, thumb = (p) => `img/thumb/${p.n}.jpg`;
+const clock = (t) => { const h = +t.slice(0, 2); return `${h > 12 ? h - 12 : h}:${t.slice(2)} ${h >= 12 ? "PM" : "AM"}`; };
+document.getElementById("boothN").textContent = PHOTOS.length;
+
+/* Stories */
+const S = document.getElementById("stories"), img = document.getElementById("img"), strip = document.getElementById("strip");
+let i = 0, timer = null, playing = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+strip.innerHTML = PHOTOS.map((p, j) => `<button type="button" data-i="${j}" aria-label="Photo ${j + 1}"><img src="${thumb(p)}" alt="" loading="lazy"></button>`).join("");
+function draw() {
+  const p = PHOTOS[i];
+  img.src = full(p);
+  document.getElementById("count").textContent = `${i + 1} / ${PHOTOS.length}`;
+  document.getElementById("cap").innerHTML = `${clock(p.t)}<span>Tap the sides or swipe · tap the photo to open it</span>`;
+  const start = Math.max(0, Math.min(i - 10, PHOTOS.length - 20));
+  document.getElementById("bars").innerHTML = Array.from({ length: 20 }, (_, k) => { const j = start + k; return `<i class="${j < i ? "done" : j === i ? "now" : ""}"></i>`; }).join("");
+  strip.querySelectorAll("button").forEach((b, j) => b.classList.toggle("on", j === i));
+  const on = strip.children[i]; strip.scrollTo({ left: on.offsetLeft - strip.clientWidth / 2 + 30, behavior: "smooth" });
+  clearTimeout(timer);
+  if (playing) timer = setTimeout(() => step(1), 4500);
+  // warm the next photo
+  new Image().src = full(PHOTOS[(i + 1) % PHOTOS.length]);
+}
+const step = (d) => { i = (i + d + PHOTOS.length) % PHOTOS.length; draw(); };
+function setPlay(v) {
+  playing = v; S.classList.toggle("paused", !v);
+  const b = document.getElementById("play"); b.textContent = v ? "❚❚" : "▶"; b.setAttribute("aria-label", v ? "Pause slideshow" : "Play slideshow");
+  draw();
+}
+document.getElementById("play").onclick = () => setPlay(!playing);
+S.querySelector(".tap.l").onclick = () => step(-1);
+S.querySelector(".tap.r").onclick = () => step(1);
+img.onclick = () => openLb(i);
+strip.onclick = (e) => { const b = e.target.closest("button"); if (b) { i = +b.dataset.i; draw(); } };
+swipe(document.getElementById("main"), step);
+
+/* Grid of all photo booth prints */
+const grid = document.getElementById("grid");
+document.getElementById("gridG").innerHTML = PHOTOS.map((p, j) => `<button type="button" data-i="${j}" aria-label="Photo ${j + 1}"><img src="${thumb(p)}" alt="" loading="lazy"></button>`).join("");
+document.getElementById("boothBtn").onclick = () => { grid.classList.add("on"); clearTimeout(timer); document.getElementById("gridX").focus(); };
+document.getElementById("gridX").onclick = () => { grid.classList.remove("on"); draw(); };
+document.getElementById("gridG").onclick = (e) => { const b = e.target.closest("button"); if (b) openLb(+b.dataset.i); };
+
+/* Photo viewer */
+const lb = document.getElementById("lb");
+let li = 0;
+function openLb(j) { li = j; clearTimeout(timer); lb.classList.add("on"); drawLb(); document.getElementById("lbX").focus(); }
+function drawLb() {
+  const p = PHOTOS[li];
+  document.getElementById("lbImg").src = full(p);
+  document.getElementById("lbN").textContent = `${li + 1} / ${PHOTOS.length}`;
+  document.getElementById("lbC").textContent = `${clock(p.t)} · Bella Luna's 7th Birthday`;
+  const dl = document.getElementById("lbDl"); dl.href = full(p); dl.download = `bella-luna-7th-${p.n}.jpg`;
+}
+const stepLb = (d) => { li = (li + d + PHOTOS.length) % PHOTOS.length; drawLb(); };
+const closeLb = () => { lb.classList.remove("on"); if (!grid.classList.contains("on")) { i = li; draw(); } };
+document.getElementById("lbX").onclick = closeLb;
+document.getElementById("lbP").onclick = () => stepLb(-1);
+document.getElementById("lbNx").onclick = () => stepLb(1);
+document.getElementById("lm").addEventListener("click", (e) => { if (e.target.id === "lm") closeLb(); });
+swipe(document.getElementById("lm"), stepLb);
+
+function swipe(el, fn) {
+  let x0 = null;
+  el.addEventListener("touchstart", (e) => (x0 = e.touches[0].clientX), { passive: true });
+  el.addEventListener("touchend", (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) fn(dx < 0 ? 1 : -1); x0 = null; });
+}
+document.addEventListener("keydown", (e) => {
+  if (lb.classList.contains("on")) { if (e.key === "Escape") closeLb(); if (e.key === "ArrowLeft") stepLb(-1); if (e.key === "ArrowRight") stepLb(1); return; }
+  if (grid.classList.contains("on")) { if (e.key === "Escape") document.getElementById("gridX").click(); return; }
+  if (e.key === "ArrowLeft") step(-1); if (e.key === "ArrowRight") step(1);
+});
+setPlay(playing);
 </script>
 </body>
 </html>
