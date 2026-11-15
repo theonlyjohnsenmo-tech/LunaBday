@@ -43,11 +43,11 @@ const UPLOAD_API = "https://script.google.com/macros/s/AKfycbyipgHLcWhnCGRCOA61Y
 .go:disabled { opacity: .45; pointer-events: none; }
 .status { text-align: center; font-weight: 700; color: var(--soft); font-size: 14px; margin: 10px 0 0; min-height: 1.4em; }
 .status.err { color: #b4283c; }
-.done { text-align: center; padding: 10px 0 4px; }
-.done .big { font-size: 54px; }
-.done h3 { font-family: Satisfy, cursive; font-weight: 400; font-size: 40px; color: var(--plum); margin: 4px 0; }
-.done p { font-weight: 600; margin: 0 0 18px; }
-.done .btn + .btn { margin-top: 10px; }
+.updone { text-align: center; padding: 10px 0 4px; }
+.updone .big { font-size: 54px; }
+.updone h3 { font-family: Satisfy, cursive; font-weight: 400; font-size: 40px; color: var(--plum); margin: 4px 0; }
+.updone p { font-weight: 600; margin: 0 0 18px; }
+.updone .btn + .btn { margin-top: 10px; }
 .gg { position: fixed; inset: 0; z-index: 40; overflow-y: auto; background: var(--blush); padding: 16px 16px 40px; display: none; }
 .gg.on { display: block; }
 .gg header { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; max-width: 1200px; margin: 0 auto 14px; }
@@ -185,7 +185,7 @@ const UPLOAD_API = "https://script.google.com/macros/s/AKfycbyipgHLcWhnCGRCOA61Y
   function finish(name, n) {
     picked = [];
     card.classList.remove("busy");
-    card.innerHTML = `<div class="done"><div class="big">🌼</div><h3>Thank you${name ? ", " + esc(name) : ""}!</h3>
+    card.innerHTML = `<div class="updone"><div class="big">🌼</div><h3>Thank you${name ? ", " + esc(name) : ""}!</h3>
       <p>${n} ${n === 1 ? "file was" : "files were"} added to Luna's album.</p>
       <button class="btn main" id="upMore" type="button">Share more photos</button>
       <button class="btn" id="upSee" type="button">See guest photos</button></div>`;

@@ -30,7 +30,8 @@ button { font: inherit; cursor: pointer; }
 .stories > * { min-width: 0; }
 @media (max-width: 900px) { .stories { position: relative; height: 86vh; height: 86dvh; } }
 .top { display: flex; align-items: center; gap: 10px; padding: 16px 20px 10px; }
-.top b { font-family: Satisfy, cursive; font-weight: 400; font-size: 28px; color: var(--plum); }
+.top b { font-family: Satisfy, cursive; font-weight: 400; font-size: 28px; color: var(--plum); white-space: nowrap; }
+.top > * { white-space: nowrap; flex: none; }
 .count { margin-left: auto; font-weight: 700; font-size: 13px; color: var(--soft); background: #fff; padding: 6px 12px; border-radius: 99px; }
 .up { display: none; padding: 7px 14px; border-radius: 99px; background: var(--plum); color: #fff; font-weight: 700; font-size: 13px; text-decoration: none; margin-left: auto; }
 @media (max-width: 900px) { .up { display: inline-block; } .up + .count { margin-left: 0; } }
@@ -66,6 +67,18 @@ h1 { font-family: Satisfy, cursive; font-weight: 400; font-size: 50px; line-heig
 .foot { font-family: Satisfy, cursive; font-size: 26px; color: var(--soft); margin-top: 14px; }
 .date { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--soft); }
 a.home { color: var(--soft); font-weight: 700; font-size: 14px; }
+.thanks { margin-top: 18px; padding: 20px 18px 10px; border-radius: 22px; background: #fff; box-shadow: inset 0 0 0 2px #f0d5e4; text-align: center; }
+.thanks h2 { font-family: Satisfy, cursive; font-weight: 400; font-size: 32px; color: var(--plum); margin: 0; line-height: 1.1; }
+.thanks p { font-size: 14.5px; font-weight: 600; color: var(--soft); margin: 6px 0 10px; line-height: 1.45; }
+.thanks ul { list-style: none; padding: 0; margin: 0; text-align: left; }
+.thanks li + li { border-top: 1px dashed #f0d5e4; }
+.thanks a { display: flex; align-items: center; gap: 12px; padding: 11px 4px; text-decoration: none; color: var(--ink); }
+.thanks a:hover b { color: var(--plum); text-decoration: underline; }
+.thanks .ic { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--blush); font-size: 17px; }
+.thanks .t { flex: 1; min-width: 0; }
+.thanks small { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); }
+.thanks b { display: block; font-size: 15.5px; font-weight: 700; }
+.thanks .fb { flex: none; font-size: 12px; font-weight: 700; color: #fff; background: #1877f2; padding: 4px 9px; border-radius: 99px; }
 .deco { position: absolute; pointer-events: none; }
 
 /* ---------- Grid of all photos ---------- */
@@ -117,9 +130,21 @@ a.home { color: var(--soft); font-weight: 700; font-size: 14px; }
       <p class="lead">Took a photo of Luna? Send it to us, no app and no login needed. Then come back to see everyone's photos.</p>
       <a class="btn main" data-link="upload" target="_blank" rel="noopener">Upload your photos<small>pick your favorite photos and videos</small></a>
       <p class="label">See the photos</p>
-      <button class="btn" id="boothBtn" type="button">Photo booth<small>all <span id="boothN"></span> photo booth prints</small></button>
+      <button class="btn" id="boothBtn" type="button">Photo booth<small>all <span id="boothN"></span> prints · by Mirage Moments</small></button>
       <a class="btn" data-link="photographer" target="_blank" rel="noopener">Official photographer<small>the photographer's album</small></a>
       <a class="btn" data-link="guests" target="_blank" rel="noopener">Photos from our guests<small>everything you shared</small></a>
+      <section class="thanks" aria-labelledby="thanksTitle">
+        <h2 id="thanksTitle">Thank you to our suppliers</h2>
+        <p>Luna's twilight garden came to life because of these wonderful people. Thank you for making her day magical! Planning a party? Give them a visit.</p>
+        <ul>
+          <li><a href="https://www.facebook.com/profile.php?id=61588580936507" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">🎨</span><span class="t"><small>Craft cart</small><b>Lex Create</b></span><span class="fb">Facebook</span></a></li>
+          <li><a href="https://www.facebook.com/sundaysmarikina" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">🍽️</span><span class="t"><small>Venue and food</small><b>Sundays Cafe and Restaurant Marikina</b></span><span class="fb">Facebook</span></a></li>
+          <li><a href="https://www.facebook.com/miragemomentsbooth" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">📸</span><span class="t"><small>Photo booth</small><b>Mirage Moments Mirror Photobooth</b></span><span class="fb">Facebook</span></a></li>
+          <li><a href="https://www.facebook.com/jaydenandclaw" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">🧸</span><span class="t"><small>Claw machine</small><b>Jayden &amp; Claw PH</b></span><span class="fb">Facebook</span></a></li>
+          <li><a href="https://www.facebook.com/StyleMeSweetiebyIzzaandBella" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">🎀</span><span class="t"><small>Styling</small><b>Style Me Sweetie</b></span><span class="fb">Facebook</span></a></li>
+          <li><a href="https://www.facebook.com/profile.php?id=61587231670938" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">🎩</span><span class="t"><small>Host and magician</small><b>Ben Events Management Services</b></span><span class="fb">Facebook</span></a></li>
+        </ul>
+      </section>
       <div class="foot">Thank you for making her day!</div>
       <div class="date">Nov 14, 2026 · Sundays Cafe, Marikina</div>
       <p><a class="home" href="../">Back to the invitation</a></p>
